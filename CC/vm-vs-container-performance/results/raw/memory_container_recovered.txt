@@ -1,0 +1,7 @@
+Container Memory Benchmark
+
+10240 MiB transferred
+Throughput: 5309.23 MiB/sec
+Total time: 1.9202 sec
+Events: 10240
+Average latency: 0.68 ms

@@ -1,0 +1,7 @@
+VM Memory Benchmark
+
+10240 MiB transferred
+Throughput: 10352.13 MiB/sec
+Total time: 0.9862 sec
+Events: 10240
+Average latency: 0.37 ms
