@@ -86,3 +86,12 @@ The objective of this experiment is to implement matrix multiplication using seq
 * [ ] OpenMP implementation
 * [ ] MPI implementation
 
+## 📸 Result Screenshots
+
+### CUDA
+
+![Sequential Result](screenshots/01_Sequential_Result.png)
+
+![OpenMP Result](screenshots/02_OpenMP_Result.png)
+
+![MPI Result](screenshots/03_MPI_Result.png)
