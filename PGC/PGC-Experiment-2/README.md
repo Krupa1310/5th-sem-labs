@@ -1620,29 +1620,27 @@ PGC-Experiment-2/
 ```
 
 ---
-
 # Performance Graphs
 
 The experiment includes the following performance graphs generated from the measured execution times.
 
 ### Graph 1 — Pthreads Execution Time
 
-[Pthreads Execution Time](https://chatgpt.com/c/screenshots/graphs/pthreads_execution_time.png)
+![Pthreads Execution Time](screenshots/graphs/pthreads_execution_time.png)
 
 This graph shows the measured Pthreads execution time for different thread counts.
 
 ### Graph 2 — OpenMP Execution Time
 
-[OpenMP Execution Time](https://chatgpt.com/c/screenshots/graphs/openmp_execution_time.png)
+![OpenMP Execution Time](screenshots/graphs/openmp_execution_time.png)
 
 This graph shows the measured OpenMP execution time for different thread counts.
 
 ### Graph 3 — Pthreads vs OpenMP
 
-[Pthreads vs OpenMP](https://chatgpt.com/c/screenshots/graphs/pthreads_vs_openmp.png)
+![Pthreads vs OpenMP](screenshots/graphs/pthreads_vs_openmp.png)
 
 This graph compares the execution times of Pthreads and OpenMP.
-
 ---
 
 # 44. CONCLUSION
