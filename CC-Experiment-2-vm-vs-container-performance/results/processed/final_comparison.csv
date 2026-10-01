@@ -1,6 +1,6 @@
 Metric,Unit,VM,Container,Difference
 CPU Performance,events/sec,608.0550,624.9875,2.78%
-Memory Usage,MiB,10240,10240,N/A
+Memory Usage,MiB,Not recorded,Not recorded,N/A
 Sequential Read,MiB/s,596,N/A,N/A
 Sequential Write,MiB/s,118,141,19.49%
 Random Read,IOPS,2457,2356,-4.11%
