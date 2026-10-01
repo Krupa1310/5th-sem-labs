@@ -1213,9 +1213,9 @@ results/figures/cpu_scalability.png
 
 | Metric         |         VM | Container | Difference |
 | -------------- | ---------: | --------: | ---------: |
-| Operations/sec | Not recorded | Not recorded | N/A |
-| Execution time | Not recorded | Not recorded | N/A |
-| Latency        | Not recorded | Not recorded | N/A |
+| Throughput | 10352.13 MiB/s | 5309.23 MiB/s | -48.71% |
+| Execution time | 0.9862 s | 1.9202 s | 94.71% |
+| Latency | 0.37 ms | 0.68 ms | 83.78% |
 
 ### Memory Graph
 
@@ -1332,7 +1332,7 @@ The final comparison table combines the major measurements from the experiments.
 | Metric             |       VM | Container | Difference |
 | ------------------ | -------: | --------: | ---------: |
 | CPU Performance    | 608.0550 |  624.9875 |     2.78% |
-| Memory Usage       | Not recorded | Not recorded |       N/A |
+| Memory Throughput | 10352.13 MiB/s | 5309.23 MiB/s | -48.71% |
 | Sequential Read    | 596 MiB/s |        N/A |       N/A |
 | Sequential Write   | 118 MiB/s | 141 MiB/s |    19.49% |
 | Random Read        | 2457 IOPS | 2356 IOPS |    -4.11% |
