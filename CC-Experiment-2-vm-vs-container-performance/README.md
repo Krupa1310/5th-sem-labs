@@ -193,7 +193,7 @@ The major software tools used in the experiment were:
 
 ---
 
-## 5.3 VM Configuration
+## 5.3 🖥️ VM Configuration
 
 The VM was configured with fixed resources so that the same allocation could be maintained throughout the experiment.
 
@@ -1332,7 +1332,7 @@ The final comparison table combines the major measurements from the experiments.
 | Metric             |       VM | Container | Difference |
 | ------------------ | -------: | --------: | ---------: |
 | CPU Performance    | 608.0550 |  624.9875 |     2.78% |
-| Memory Usage       | 10240 MiB | 10240 MiB |       N/A |
+| Memory Usage       | Not recorded | Not recorded |       N/A |
 | Sequential Read    | 596 MiB/s |        N/A |       N/A |
 | Sequential Write   | 118 MiB/s | 141 MiB/s |    19.49% |
 | Random Read        | 2457 IOPS | 2356 IOPS |    -4.11% |
@@ -1343,12 +1343,6 @@ The final comparison table combines the major measurements from the experiments.
 | API Requests/sec (Compute) | 9.58 | 6.82 | -28.81% |
 | API Latency (Health) | 219.499 ms | 370.419 ms | 68.76% |
 | API Latency (Compute) | 1044.117 ms | 1467.165 ms | 40.52% |
-| Random Read        | 2457 IOPS | 2356 IOPS | -4.11% |
-| Random Write       | 2286 IOPS | Not recorded | N/A |
-| Network Throughput | 13.2 Gbits/sec | Not recorded | N/A |
-| Startup Time       | N/A | 0.898 s | N/A |
-| API Requests/sec   | 455.58 / 9.58 | 269.96 / 6.82 | -40.74% / -28.81% |
-| API Latency        | 219.499 / 1044.117 ms | 370.419 / 1467.165 ms | 68.76% / 40.52% |
 
 All measurements should be reported with appropriate units:
 
@@ -1856,8 +1850,8 @@ This project demonstrates practical benchmarking, virtualization, containerizati
 
 ---
 
-## Final Note
+## 📝 Final Note
 
-All numerical results, graphs, statistical values, and comparison values in this project are based on the actual experimental measurements collected during execution.
+All reported numerical results and graphs in this project are based on measurements collected during the experiment. Where measurements were not available, the result is explicitly marked as **Not recorded** or **N/A** rather than being estimated.
 
 The project is designed so that another user can inspect the configuration, reproduce the workloads, process the measurements, and understand how the final comparison was obtained.
