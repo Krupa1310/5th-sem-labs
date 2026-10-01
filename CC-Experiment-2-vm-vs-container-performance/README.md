@@ -14,7 +14,7 @@ A practical performance study comparing **Virtual Machines (VMs)** and **Docker 
 
   * [5.1 Hardware Configuration](#51-hardware-configuration)
   * [5.2 Software Configuration](#52-software-configuration)
-  * [5.3 VM Configuration](#53-vm-configuration)
+  * [5.3 🖥️ VM Configuration](#53-vm-configuration)
   * [5.4 Container Configuration](#54-container-configuration)
 * [6. System Architecture](#6-system-architecture)
 * [7. Project Structure](#7-project-structure)
