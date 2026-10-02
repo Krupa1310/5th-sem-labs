@@ -1,6 +1,40 @@
-# ☁️ CC Experiment 01 --- Hypervisor Analysis
+# ☁️ CC Experiment 01 - Hypervisor Analysis
 
-## 📌 1. Problem Statement
+## 📑 Table of Contents
+
+* [1. Problem Statement](#1-problem-statement)
+* [2. Objectives](#2-objectives)
+* [3. Type-1 Hypervisor - Proxmox VE](#3-type-1-hypervisor---proxmox-ve)
+
+  * [3.1 Configuration](#31-configuration)
+  * [3.2 Architecture](#32-architecture)
+  * [3.3 Execution Steps](#33-execution-steps)
+  * [3.4 Results](#34-results)
+* [4. Type-2 Hypervisor - VMware Workstation](#4-type-2-hypervisor---vmware-workstation)
+
+  * [4.1 Configuration](#41-configuration)
+  * [4.2 Architecture](#42-architecture)
+  * [4.3 Execution Steps](#43-execution-steps)
+  * [4.4 Results](#44-results)
+* [5. VM vs Container Performance Concept](#5-vm-vs-container-performance-concept)
+
+  * [Virtual Machine](#virtual-machine)
+  * [Container](#container)
+  * [VM vs Container](#vm-vs-container)
+* [6. Type-1 vs Type-2 Comparison Table](#6-type-1-vs-type-2-comparison-table)
+
+  * [Performance Comparison](#performance-comparison)
+* [7. Performance Comparison Graph](#7-performance-comparison-graph)
+
+  * [Performance Comparison Graph Data](#performance-comparison-graph-data)
+  * [Graph](#graph)
+* [8. Results and Graph Files](#8-results-and-graph-files)
+* [9. Conclusion](#9-conclusion)
+* [10. Author](#10-author)
+
+---
+
+## 1. Problem Statement
 
 Virtual machines can be deployed using different types of hypervisors. A **Type-1 hypervisor** runs directly on physical hardware, while a **Type-2 hypervisor** runs on top of a host operating system.
 
@@ -10,7 +44,7 @@ The measured results are recorded and compared to understand the performance cha
 
 ---
 
-## 🎯 2. Objectives
+## 2. Objectives
 
 * To understand the concept of virtualization and hypervisors.
 * To understand the difference between Type-1 and Type-2 hypervisors.
@@ -23,9 +57,9 @@ The measured results are recorded and compared to understand the performance cha
 
 ---
 
-# 🖥️ 3. Type-1 Hypervisor – Proxmox VE
+# 3. Type-1 Hypervisor - Proxmox VE
 
-## ⚙️ 3.1 Configuration
+## 3.1 Configuration
 
 | Resource        | Configuration            |
 | --------------- | ------------------------ |
@@ -38,7 +72,7 @@ The measured results are recorded and compared to understand the performance cha
 | Network         | As configured in Proxmox |
 | Benchmark       | Sysbench CPU             |
 
-### 📝 Configuration Description
+### Configuration Description
 
 Proxmox VE is used as the Type-1 hypervisor. The Ubuntu virtual machine is configured with 2 vCPU, 2 GB RAM, and a 20 GB virtual disk.
 
@@ -46,7 +80,7 @@ The same basic VM resource configuration is used for the Type-2 experiment to ma
 
 ---
 
-## 🏗️ 3.2 Architecture
+## 3.2 Architecture
 
 ```text
 Physical Hardware
@@ -64,7 +98,7 @@ Proxmox VE runs directly on the physical hardware and manages the Ubuntu virtual
 
 ---
 
-## ▶️ 3.3 Execution Steps
+## 3.3 Execution Steps
 
 ### Step 1: Install and Start Proxmox VE
 
@@ -121,25 +155,26 @@ The following Sysbench metrics are recorded:
 
 ---
 
-## 📊 3.4 Results
+## 3.4 Results
 
 The Proxmox benchmark measurements are currently unavailable.
 
-| Metric            | Proxmox VE |
-| ----------------- | ---------- |
-| Total Time        | —          |
-| Total Events      | —          |
-| Events Per Second | —          |
-| Average Latency   | —          |
-| Maximum Latency   | —          |
+| Metric                  |      Proxmox VE |
+| ----------------------- | --------------: |
+| Total Time              | **TO BE ADDED** |
+| Total Events            | **TO BE ADDED** |
+| Events Per Second       | **TO BE ADDED** |
+| Average Latency         | **TO BE ADDED** |
+| Maximum Latency         | **TO BE ADDED** |
+| 95th Percentile Latency | **TO BE ADDED** |
 
 > ⚠️ No numerical performance values are assumed for Proxmox.
 
 ---
 
-# 💻 4. Type-2 Hypervisor – VMware Workstation
+# 4. Type-2 Hypervisor - VMware Workstation
 
-## ⚙️ 4.1 Configuration
+## 4.1 Configuration
 
 | Resource        | Configuration      |
 | --------------- | ------------------ |
@@ -153,7 +188,7 @@ The Proxmox benchmark measurements are currently unavailable.
 | Network         | NAT                |
 | Benchmark       | Sysbench CPU       |
 
-### 📝 Configuration Description
+### Configuration Description
 
 VMware Workstation is used as the Type-2 hypervisor. It runs as an application on the Windows host operating system and manages the Ubuntu virtual machine.
 
@@ -161,7 +196,7 @@ The VM is configured with the same CPU, memory, and disk resources used for the 
 
 ---
 
-## 🏗️ 4.2 Architecture
+## 4.2 Architecture
 
 ```text
 Physical Hardware
@@ -181,7 +216,7 @@ VMware Workstation runs on top of the Windows host operating system and provides
 
 ---
 
-## ▶️ 4.3 Execution Steps
+## 4.3 Execution Steps
 
 ### Step 1: Install VMware Workstation
 
@@ -239,26 +274,26 @@ The following Sysbench metrics are recorded:
 
 ---
 
-## 📊 4.4 Results
+## 4.4 Results
 
 The actual Sysbench results obtained from the VMware Ubuntu VM are recorded below.
 
 | Metric                  | VMware Workstation |
-| ----------------------- | ------------------ |
-| Sysbench Version        | 1.0.20             |
-| Benchmark               | CPU                |
-| Prime Numbers Limit     | 20,000             |
-| Threads                 | 1                  |
-| Total Time              | 10.0006 s          |
-| Total Events            | 24,366             |
-| Events Per Second       | 2,436.05           |
-| Minimum Latency         | 0.40 ms            |
-| Average Latency         | 0.41 ms            |
-| Maximum Latency         | 4.39 ms            |
-| 95th Percentile Latency | 0.42 ms            |
-| Latency Sum             | 9992.75 ms         |
+| ----------------------- | -----------------: |
+| Sysbench Version        |             1.0.20 |
+| Benchmark               |                CPU |
+| Prime Numbers Limit     |             20,000 |
+| Threads                 |                  1 |
+| Total Time              |      **10.0006 s** |
+| Total Events            |         **24,366** |
+| Events Per Second       |       **2,436.05** |
+| Minimum Latency         |        **0.40 ms** |
+| Average Latency         |        **0.41 ms** |
+| Maximum Latency         |        **4.39 ms** |
+| 95th Percentile Latency |        **0.42 ms** |
+| Latency Sum             |     **9992.75 ms** |
 
-### 📝 Observation
+### Observation
 
 The CPU benchmark completed in approximately **10 seconds**. The VM processed **24,366 total events** and achieved a throughput of **2,436.05 events per second**.
 
@@ -266,9 +301,9 @@ The measured average latency was **0.41 ms**. The minimum latency was **0.40 ms*
 
 ---
 
-# 🔄 5. VM vs Container Performance Concept
+# 5. VM vs Container Performance Concept
 
-## 🖥️ Virtual Machine
+## Virtual Machine
 
 A virtual machine provides a complete virtualized environment including a guest operating system.
 
@@ -284,7 +319,7 @@ Application
 
 Each VM has its own guest operating system and virtual hardware resources.
 
-## 📦 Container
+## Container
 
 Containers share the host operating system kernel while isolating applications and their dependencies.
 
@@ -300,7 +335,7 @@ Container
 Application
 ```
 
-## 📋 VM vs Container
+## VM vs Container
 
 | Feature           | Virtual Machine                      | Container                          |
 | ----------------- | ------------------------------------ | ---------------------------------- |
@@ -315,7 +350,7 @@ The VM experiment in this project focuses on hypervisor-based virtualization. Co
 
 ---
 
-# ⚖️ 6. Type-1 vs Type-2 Comparison Table
+# 6. Type-1 vs Type-2 Comparison Table
 
 | Feature                           | Type-1: Proxmox VE            | Type-2: VMware Workstation |
 | --------------------------------- | ----------------------------- | -------------------------- |
@@ -330,41 +365,43 @@ The VM experiment in this project focuses on hypervisor-based virtualization. Co
 | Benchmark                         | Sysbench CPU                  | Sysbench CPU               |
 | Virtualization Layer              | Directly on hardware          | Above host OS              |
 
-### 📊 Performance Comparison
+## Performance Comparison
 
-| Metric               | Proxmox VE | VMware Workstation |
-| -------------------- | ---------- | ------------------ |
-| Total Execution Time | —          | 10.0006 s          |
-| Total Events         | —          | 24,366             |
-| Events Per Second    | —          | 2,436.05           |
-| Average Latency      | —          | 0.41 ms            |
-| Maximum Latency      | —          | 4.39 ms            |
+| Metric                  |      Proxmox VE | VMware Workstation |
+| ----------------------- | --------------: | -----------------: |
+| Total Execution Time    | **TO BE ADDED** |      **10.0006 s** |
+| Total Events            | **TO BE ADDED** |         **24,366** |
+| Events Per Second       | **TO BE ADDED** |       **2,436.05** |
+| Average Latency         | **TO BE ADDED** |        **0.41 ms** |
+| Maximum Latency         | **TO BE ADDED** |        **4.39 ms** |
+| 95th Percentile Latency | **TO BE ADDED** |        **0.42 ms** |
 
 > ⚠️ Proxmox performance values are not included because the corresponding benchmark output is unavailable.
 
 ---
 
-# 📈 7. Performance Comparison Graph
+# 7. Performance Comparison Graph
 
 The performance graph is intended to compare the **actual Sysbench results** obtained from the Type-1 and Type-2 experiments.
 
 The following metrics are compared:
 
-* ⏱️ Total Execution Time
-* ⚡ Events per Second
-* 📊 Average Latency
-* 📊 Maximum Latency
+* Total Execution Time
+* Events Per Second
+* Average Latency
+* Maximum Latency
 
-### 📊 Performance Comparison
+## Performance Comparison Graph Data
 
-| Metric               | Proxmox VE | VMware Workstation |
-| -------------------- | ---------- | ------------------ |
-| Total Execution Time | —          | 10.0006 s          |
-| Events Per Second    | —          | 2,436.05           |
-| Average Latency      | —          | 0.41 ms            |
-| Maximum Latency      | —          | 4.39 ms            |
+| Metric                  |      Proxmox VE | VMware Workstation |
+| ----------------------- | --------------: | -----------------: |
+| Total Execution Time    | **TO BE ADDED** |      **10.0006 s** |
+| Events Per Second       | **TO BE ADDED** |       **2,436.05** |
+| Average Latency         | **TO BE ADDED** |        **0.41 ms** |
+| Maximum Latency         | **TO BE ADDED** |        **4.39 ms** |
+| 95th Percentile Latency | **TO BE ADDED** |        **0.42 ms** |
 
-### 📉 Graph
+## Graph
 
 The final comparison graph will be generated using the actual benchmark values from both environments.
 
@@ -385,7 +422,7 @@ Performance Comparison
 
 ---
 
-# 📁 8. Results and Graph Files
+# 8. Results and Graph Files
 
 The project can contain the following files:
 
@@ -414,7 +451,7 @@ will contain the final performance comparison graph.
 
 ---
 
-# ✅ 9. Conclusion
+# 9. Conclusion
 
 The experiment demonstrates the working and configuration of Type-1 and Type-2 hypervisors using Proxmox VE and VMware Workstation respectively.
 
@@ -428,11 +465,10 @@ The experiment also introduces the difference between virtual machines and conta
 
 ---
 
-# 👤 10. Author
+# 10. Author
 
 **Krupa Akki**
 
 CSE (Artificial Intelligence)
 
 K.L.E. Technological University
-
