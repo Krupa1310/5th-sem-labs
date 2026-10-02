@@ -4,6 +4,64 @@
 
 **Develop Multithreaded Programs Using Parallel Programming Libraries to Understand Thread Creation, Management, and Coordination**
 
+# 📑 Table of Contents
+
+* [1. AIM](#1-aim)
+* [2. PROBLEM STATEMENT](#2-problem-statement)
+* [3. OBJECTIVES](#3-objectives)
+* [4. BASIC IDEA](#4-basic-idea)
+* [5. SOFTWARE ENVIRONMENT](#5-software-environment)
+* [6. EXPERIMENT CONFIGURATION](#6-experiment-configuration)
+* [7. ARCHITECTURE](#7-architecture)
+* [8. STARTING WSL](#8-starting-wsl)
+* [9. CREATE / OPEN THE LAB DIRECTORY](#9-create--open-the-lab-directory)
+* [10. CHECK GCC](#10-check-gcc)
+* [11. CHECK OPENMP SUPPORT](#11-check-openmp-support)
+* [12. DIRECTORY STRUCTURE](#12-directory-structure)
+
+### PART A — PTHREADS
+
+* [13. PTHREADS INTRODUCTION](#13-pthreads-introduction)
+* [14. CREATE ONE THREAD](#14-create-one-thread)
+* [15. CREATE MULTIPLE THREADS](#15-create-multiple-threads)
+* [16. DIVIDE WORK AMONG THREADS](#16-divide-work-among-threads)
+* [17. PTHREADS RACE CONDITION](#17-pthreads-race-condition)
+* [18. FIX RACE CONDITION USING MUTEX](#18-fix-race-condition-using-mutex)
+
+### PART B — OPENMP
+
+* [19. OPENMP INTRODUCTION](#19-openmp-introduction)
+* [20. OPENMP BASIC PARALLEL REGION](#20-openmp-basic-parallel-region)
+* [21. OPENMP WORK SHARING AND REDUCTION](#21-openmp-work-sharing-and-reduction)
+* [22. OPENMP RACE CONDITION](#22-openmp-race-condition)
+* [23. OPENMP CRITICAL SECTION](#23-openmp-critical-section)
+* [24. OPENMP BARRIER](#24-openmp-barrier)
+
+### PART C — PERFORMANCE ANALYSIS
+
+* [25. PERFORMANCE OBJECTIVE](#25-performance-objective)
+* [26. SEQUENTIAL BASELINE](#26-sequential-baseline)
+* [27. PTHREADS PERFORMANCE](#27-pthreads-performance)
+* [28. PTHREADS PERFORMANCE RESULTS](#28-pthreads-performance-results)
+* [29. OPENMP PERFORMANCE](#29-openmp-performance)
+* [30. OPENMP PERFORMANCE RESULTS](#30-openmp-performance-results)
+* [31. FINAL PERFORMANCE COMPARISON](#31-final-performance-comparison)
+* [32. SPEEDUP](#32-speedup)
+* [33. EFFICIENCY](#33-efficiency)
+* [34. PERFORMANCE OBSERVATIONS](#34-performance-observations)
+* [35. WHY MORE THREADS DO NOT ALWAYS MEAN MORE SPEED](#35-why-more-threads-do-not-always-mean-more-speed)
+* [36. PTHREADS VS OPENMP](#36-pthreads-vs-openmp)
+* [37. IMPORTANT TERMS](#37-important-terms)
+* [38. IMPLEMENTED PROGRAMS](#38-implemented-programs)
+* [39. SCREENSHOTS](#39-screenshots)
+* [40. GRAPH GENERATION](#40-graph-generation)
+* [41. COMPLETE LEARNING FLOW](#41-complete-learning-flow)
+* [42. RESULT SUMMARY](#42-result-summary)
+* [43. REPOSITORY CONTENT](#43-repository-content)
+* [Performance Graphs](#performance-graphs)
+* [44. CONCLUSION](#44-conclusion)
+* [Author](#author)
+
 ---
 
 # 1. AIM
