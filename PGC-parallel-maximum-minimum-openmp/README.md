@@ -781,15 +781,3 @@ PGC-parallel-maximum-minimum-openmp/
 │
 └── presentation/
 ```
-
----
-
-## 🚀 GitHub Update
-
-Since your **graphs and screenshots are already pushed**, update only the README:
-
-```bash
-git add PGC-parallel-maximum-minimum-openmp/README.md
-git commit -m "Update OpenMP max-min README"
-git push origin main
-```
