@@ -1181,5 +1181,7 @@ PGC-Experiment-1-matrix-multiplication-lab/
 
 ### CUDA
 
-![CUDA Result](screenshots/04_CUDA_Result.png)
+![CUDA Result](screenshots/07_Final_CUDA_Result.png)
+
+
 
