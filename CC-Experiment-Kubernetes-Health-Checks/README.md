@@ -1,41 +1,37 @@
 # ☸️ CC Experiment – Kubernetes Health Checks
 
 ## 📑 Table of Contents
-
-- [1. Problem Statement](#1-problem-statement)
-- [2. Objectives](#2-objectives)
-- [3. Technologies Used](#3-technologies-used)
-- [4. System Architecture](#4-system-architecture)
-- [5. Application Implementation](#5-application-implementation)
-  - [5.1 Application Endpoints](#51-application-endpoints)
-  - [5.2 Docker Configuration](#52-docker-configuration)
-- [6. Kubernetes Configuration](#6-kubernetes-configuration)
-  - [6.1 Deployment Configuration](#61-deployment-configuration)
-  - [6.2 Service Configuration](#62-service-configuration)
-  - [6.3 Health Probe Configuration](#63-health-probe-configuration)
-- [7. Execution Steps](#7-execution-steps)
-- [8. Testing and Results](#8-testing-and-results)
-  - [8.1 Pod Status](#81-pod-status)
-  - [8.2 Liveness Probe Testing](#82-liveness-probe-testing)
-  - [8.3 Readiness Probe Testing](#83-readiness-probe-testing)
-- [9. Liveness vs Readiness Comparison](#9-liveness-vs-readiness-comparison)
-- [10. Results and Observations](#10-results-and-observations)
-- [11. Conclusion](#11-conclusion)
-- [12. Author](#12-author)
-
----
+1. Problem Statement
+2. Objectives
+3. Technologies Used
+4. System Architecture
+5. Application Implementation
+   - 5.1 Application Endpoints
+   - 5.2 Docker Configuration
+6. Kubernetes Configuration
+   - 6.1 Deployment Configuration
+   - 6.2 Service Configuration
+   - 6.3 Health Probe Configuration
+7. Execution Steps
+8. Testing and Results
+   - 8.1 Pod Status
+   - 8.2 Liveness Probe Testing
+   - 8.3 Readiness Probe Testing
+   - 8.4 Screenshots and Experimental Evidence
+9. Liveness vs Readiness Comparison
+10. Results and Observations
+11. Conclusion
+12. Author
 
 ## 1. Problem Statement
 
 In containerized applications, it is important to continuously monitor application health and availability. An application may experience failures or may temporarily become unavailable while its container is still running.
 
-Kubernetes provides **Liveness Probes** and **Readiness Probes** to monitor the health of containers and manage application traffic.
+Kubernetes provides Liveness Probes and Readiness Probes to monitor the health of containers and manage application traffic.
 
 This experiment implements a Node.js application with health-check endpoints and deploys it on Kubernetes using Minikube.
 
 The experiment demonstrates how Kubernetes detects application failures, restarts unhealthy containers, and controls traffic to application Pods based on their readiness status.
-
----
 
 ## 2. Objectives
 
@@ -50,8 +46,6 @@ The experiment demonstrates how Kubernetes detects application failures, restart
 - To observe container restart behavior during liveness failure.
 - To understand how readiness failure affects service traffic.
 
----
-
 ## 3. Technologies Used
 
 | Technology | Purpose |
@@ -63,8 +57,6 @@ The experiment demonstrates how Kubernetes detects application failures, restart
 | Minikube | Local Kubernetes cluster |
 | YAML | Kubernetes configuration |
 | kubectl | Kubernetes command-line tool |
-
----
 
 ## 4. System Architecture
 
@@ -103,21 +95,19 @@ The application is deployed inside a Kubernetes cluster using Docker containers.
 
 ### Architecture Description
 
-1. The user accesses the application through the NodePort Service.
-2. The Kubernetes Service forwards traffic to available healthy and ready Pods.
-3. The Deployment maintains two application replicas.
-4. Each Pod runs the Node.js application inside a container.
-5. The liveness probe checks whether the application is alive.
-6. The readiness probe checks whether the application is ready to receive traffic.
-7. Kubernetes takes appropriate action based on the probe results.
-
----
+- The user accesses the application through the NodePort Service.
+- The Kubernetes Service forwards traffic to available healthy and ready Pods.
+- The Deployment maintains two application replicas.
+- Each Pod runs the Node.js application inside a container.
+- The liveness probe checks whether the application is alive.
+- The readiness probe checks whether the application is ready to receive traffic.
+- Kubernetes takes appropriate action based on the probe results.
 
 ## 5. Application Implementation
 
 The application is developed using Node.js and Express.js.
 
-The Express application runs on port **3000** and provides different endpoints to simulate normal operation, application failure, and recovery.
+The Express application runs on port 3000 and provides different endpoints to simulate normal operation, application failure, and recovery.
 
 ### 5.1 Application Endpoints
 
@@ -155,19 +145,17 @@ Restores the application's health states so that it can become healthy and ready
 
 A Dockerfile is created to containerize the Node.js application.
 
-The Docker image uses **Node.js 20 Alpine** as its base image.
+The Docker image uses Node.js 20 Alpine as its base image.
 
 The Dockerfile performs the following operations:
 
-1. Selects the Node.js 20 Alpine base image.
-2. Sets the application working directory.
-3. Copies the package files.
-4. Installs application dependencies.
-5. Copies the application source code.
-6. Exposes port 3000.
-7. Starts the Node.js application.
-
----
+- Selects the Node.js 20 Alpine base image.
+- Sets the application working directory.
+- Copies the package files.
+- Installs application dependencies.
+- Copies the application source code.
+- Exposes port 3000.
+- Starts the Node.js application.
 
 ## 6. Kubernetes Configuration
 
@@ -191,7 +179,7 @@ The Deployment manages the application Pods and maintains the desired number of 
 | Liveness Probe | `/live` |
 | Readiness Probe | `/ready` |
 
-### Deployment Responsibilities
+**Deployment Responsibilities**
 
 - Creates and manages two application Pods.
 - Ensures the required number of replicas are running.
@@ -234,11 +222,9 @@ The readiness probe determines whether the application can receive traffic.
 - The Pod is removed from the Service's available endpoints.
 - The container is not restarted just because readiness fails.
 
----
-
 ## 7. Execution Steps
 
-### Step 1: Start Minikube
+**Step 1: Start Minikube**
 
 Start the local Kubernetes cluster using Docker as the driver.
 
@@ -246,13 +232,13 @@ Start the local Kubernetes cluster using Docker as the driver.
 minikube start --driver=docker
 ```
 
-### Step 2: Verify Minikube Status
+**Step 2: Verify Minikube Status**
 
 ```bash
 minikube status
 ```
 
-### Step 3: Build the Docker Image
+**Step 3: Build the Docker Image**
 
 Build the application image using the Dockerfile.
 
@@ -260,9 +246,9 @@ Build the application image using the Dockerfile.
 docker build -t health-app .
 ```
 
-If using a Minikube-local image, build or load the image into Minikube according to the image configuration in `deployment.yaml`.
+If using a Minikube-local image, build or load the image into Minikube according to the image configuration in deployment.yaml.
 
-### Step 4: Deploy the Application
+**Step 4: Deploy the Application**
 
 Apply the Kubernetes Deployment configuration.
 
@@ -270,7 +256,7 @@ Apply the Kubernetes Deployment configuration.
 kubectl apply -f deployment.yaml
 ```
 
-### Step 5: Create the Service
+**Step 5: Create the Service**
 
 Apply the Service configuration.
 
@@ -278,33 +264,31 @@ Apply the Service configuration.
 kubectl apply -f service.yaml
 ```
 
-### Step 6: Verify Pods
+**Step 6: Verify Pods**
 
 ```bash
 kubectl get pods
 ```
 
-### Step 7: Verify Services
+**Step 7: Verify Services**
 
 ```bash
 kubectl get services
 ```
 
-### Step 8: Check Deployment
+**Step 8: Check Deployment**
 
 ```bash
 kubectl get deployments
 ```
 
-### Step 9: Access the Application
+**Step 9: Access the Application**
 
 ```bash
 minikube service health-service
 ```
 
-The application is exposed through the NodePort Service on port **30080**.
-
----
+The application is exposed through the NodePort Service on port 30080.
 
 ## 8. Testing and Results
 
@@ -318,7 +302,7 @@ The following command is used to check the application Pods.
 kubectl get pods
 ```
 
-The Pods are expected to reach the `Running` state and show `1/1` in the READY column when healthy.
+The Pods are expected to reach the Running state and show 1/1 in the READY column when healthy.
 
 ### 8.2 Liveness Probe Testing
 
@@ -326,11 +310,11 @@ The Pods are expected to reach the `Running` state and show `1/1` in the READY c
 
 **Execution:**
 
-1. Access the `/fail-live` endpoint.
-2. The application simulates a liveness failure.
-3. Kubernetes detects the failure through the liveness probe.
-4. The affected container is restarted.
-5. Check the restart count using:
+- Access the `/fail-live` endpoint.
+- The application simulates a liveness failure.
+- Kubernetes detects the failure through the liveness probe.
+- The affected container is restarted.
+- Check the restart count using:
 
 ```bash
 kubectl get pods
@@ -346,17 +330,17 @@ The liveness probe detects the failure and Kubernetes restarts the affected cont
 
 **Execution:**
 
-1. Access the `/not-ready` endpoint.
-2. The application simulates a readiness failure.
-3. The readiness probe detects the failure.
-4. Kubernetes marks the Pod as not ready.
-5. Check the Pod status:
+- Access the `/not-ready` endpoint.
+- The application simulates a readiness failure.
+- The readiness probe detects the failure.
+- Kubernetes marks the Pod as not ready.
+- Check the Pod status:
 
 ```bash
 kubectl get pods
 ```
 
-6. Check the Service endpoints:
+- Check the Service endpoints:
 
 ```bash
 kubectl get endpoints health-service
@@ -366,7 +350,71 @@ kubectl get endpoints health-service
 
 The affected Pod is marked as not ready and is removed from the Service's available endpoints. The container is not restarted due to the readiness failure.
 
----
+### 8.4 Screenshots and Experimental Evidence
+
+The following screenshots show the actual execution and results of the Kubernetes Health Checks experiment.
+
+**A. Kubernetes Environment and Deployment**
+
+**1. Minikube Status**
+
+![Minikube Status](screenshots/01-minikube-status.png)
+
+**2. Deployment Configuration**
+
+![Deployment](screenshots/02-deployment.png)
+
+**3. Service Running**
+
+![Service Running](screenshots/03-service-running.png)
+
+**4. Liveness and Readiness Probe Configuration**
+
+![Liveness and Readiness Probes](screenshots/04-liveness-readiness-probes.png)
+
+**B. Kubernetes Events**
+
+**5. Pod Events**
+
+![Pod Events](screenshots/05-pod-events.png)
+
+**C. Successful Health Checks**
+
+**6. Liveness Test**
+
+![Liveness Test](screenshots/06-liveness-test.png)
+
+**7. Readiness Test**
+
+![Readiness Test](screenshots/07-readiness-test.png)
+
+**D. Failure Simulation**
+
+**8. Liveness Failure Simulation**
+
+![Liveness Failure](screenshots/08-liveness-failure.png)
+
+**9. Liveness Probe Failed**
+
+![Liveness Probe Failed](screenshots/09-liveness-probe-failed.png)
+
+**10. Readiness Failure Simulation**
+
+![Readiness Failure](screenshots/10-readiness-failure.png)
+
+**11. Readiness Probe Failed**
+
+![Readiness Probe Failed](screenshots/11-readiness-probe-failed.png)
+
+**E. Recovery and Final Verification**
+
+**12. Recovery Test**
+
+![Recovery Test](screenshots/12-recovery-test.png)
+
+**13. Final Pod Status**
+
+![Final Pod Status](screenshots/13-final-pod-status.png)
 
 ## 9. Liveness vs Readiness Comparison
 
@@ -378,8 +426,6 @@ The affected Pod is marked as not ready and is removed from the Service's availa
 | Traffic Handling | Does not directly control Service traffic | Removes the Pod from available Service endpoints |
 | Container Restart | Yes, after repeated probe failures | No, not due to readiness failure |
 | Main Benefit | Recovers from application failures | Prevents traffic from reaching unavailable applications |
-
----
 
 ## 10. Results and Observations
 
@@ -394,16 +440,14 @@ The following observations were obtained:
 | Readiness failure | Pod removed from Service endpoints | Successful |
 | Recovery | Application becomes healthy and ready again | Supported by recovery endpoint |
 
-### Key Observations
+**Key Observations**
 
-1. Kubernetes continuously monitors the application using health probes.
-2. Liveness probes help Kubernetes detect and recover from application failures.
-3. Readiness probes control whether a Pod receives application traffic.
-4. A liveness failure causes the affected container to restart after the configured failure threshold.
-5. A readiness failure does not restart the container.
-6. The Service forwards traffic only to available ready Pods.
-
----
+- Kubernetes continuously monitors the application using health probes.
+- Liveness probes help Kubernetes detect and recover from application failures.
+- Readiness probes control whether a Pod receives application traffic.
+- A liveness failure causes the affected container to restart after the configured failure threshold.
+- A readiness failure does not restart the container.
+- The Service forwards traffic only to available ready Pods.
 
 ## 11. Conclusion
 
@@ -416,8 +460,6 @@ The liveness probe was used to detect application failures and restart unhealthy
 The failure scenarios were successfully tested, demonstrating that Kubernetes handles application recovery and traffic management using these two probes.
 
 Thus, the experiment provides practical understanding of Kubernetes health monitoring, container lifecycle management, and application availability.
-
----
 
 ## 12. Author
 
