@@ -1,27 +1,28 @@
 # ☸️ CC Experiment – Kubernetes Health Checks
 
 ## 📑 Table of Contents
-1. Problem Statement
-2. Objectives
-3. Technologies Used
-4. System Architecture
-5. Application Implementation
-   - 5.1 Application Endpoints
-   - 5.2 Docker Configuration
-6. Kubernetes Configuration
-   - 6.1 Deployment Configuration
-   - 6.2 Service Configuration
-   - 6.3 Health Probe Configuration
-7. Execution Steps
-8. Testing and Results
-   - 8.1 Pod Status
-   - 8.2 Liveness Probe Testing
-   - 8.3 Readiness Probe Testing
-   - 8.4 Screenshots and Experimental Evidence
-9. Liveness vs Readiness Comparison
-10. Results and Observations
-11. Conclusion
-12. Author
+
+1. [Problem Statement](#1-problem-statement)
+2. [Objectives](#2-objectives)
+3. [Technologies Used](#3-technologies-used)
+4. [System Architecture](#4-system-architecture)
+5. [Application Implementation](#5-application-implementation)
+   - [5.1 Application Endpoints](#51-application-endpoints)
+   - [5.2 Docker Configuration](#52-docker-configuration)
+6. [Kubernetes Configuration](#6-kubernetes-configuration)
+   - [6.1 Deployment Configuration](#61-deployment-configuration)
+   - [6.2 Service Configuration](#62-service-configuration)
+   - [6.3 Health Probe Configuration](#63-health-probe-configuration)
+7. [Execution Steps](#7-execution-steps)
+8. [Testing and Results](#8-testing-and-results)
+   - [8.1 Pod Status](#81-pod-status)
+   - [8.2 Liveness Probe Testing](#82-liveness-probe-testing)
+   - [8.3 Readiness Probe Testing](#83-readiness-probe-testing)
+   - [8.4 Screenshots and Experimental Evidence](#84-screenshots-and-experimental-evidence)
+9. [Liveness vs Readiness Comparison](#9-liveness-vs-readiness-comparison)
+10. [Results and Observations](#10-results-and-observations)
+11. [Conclusion](#11-conclusion)
+12. [Author](#12-author)
 
 ## 1. Problem Statement
 
