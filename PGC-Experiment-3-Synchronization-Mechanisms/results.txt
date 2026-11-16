@@ -1,0 +1,26 @@
+Comparing synchronization mechanisms for 10000000 increments
+
+Mechanism | Threads | Final Count | Correctness | Time (s)
+---------------------------------------------------------------
+None       |       1 |     10000000 |    Correct |     0.0291
+Critical   |       1 |     10000000 |    Correct |     0.1693
+Atomic     |       1 |     10000000 |    Correct |     0.0594
+Lock       |       1 |     10000000 |    Correct |     0.1713
+---------------------------------------------------------------
+None       |       2 |      6316021 |  INCORRECT |     0.0312
+Critical   |       2 |     10000000 |    Correct |     0.3102
+Atomic     |       2 |     10000000 |    Correct |     0.1689
+Lock       |       2 |     10000000 |    Correct |     0.4681
+---------------------------------------------------------------
+None       |       4 |      2622866 |  INCORRECT |     0.0332
+Critical   |       4 |     10000000 |    Correct |     0.7677
+Atomic     |       4 |     10000000 |    Correct |     0.2413
+Lock       |       4 |     10000000 |    Correct |     1.0604
+---------------------------------------------------------------
+None       |       8 |      1631471 |  INCORRECT |     0.0351
+Critical   |       8 |     10000000 |    Correct |     0.6753
+Atomic     |       8 |     10000000 |    Correct |     0.2146
+Lock       |       8 |     10000000 |    Correct |     0.9675
+---------------------------------------------------------------
+
+Expected correct final count = 10000000
