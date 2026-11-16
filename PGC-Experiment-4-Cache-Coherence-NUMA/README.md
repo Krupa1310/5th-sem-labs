@@ -1,7 +1,3 @@
-
-cd ~/cache_numa_lab
-
-cat > README.md <<'EOF'
 # Analyze Cache Coherence (MSI, MESI, MOESI) and NUMA Memory Access Performance
 
 A Parallel and Distributed Computing laboratory experiment studying cache coherence protocols, false sharing, and NUMA memory access performance.
@@ -818,8 +814,3 @@ cache_numa_lab/
     ├── 02_false_sharing.png
     ├── 03_numa_memory.png
     └── 04_combined_comparison.png
-```
-EOF
-
-
-
