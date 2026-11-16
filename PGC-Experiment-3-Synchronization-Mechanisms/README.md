@@ -383,20 +383,7 @@ Expected correct final count: **10,000,000**.
 
 ### 10.1 Execution Time Comparison
 
-The following graph represents the measured execution times of the synchronization methods.
-
-```mermaid
-xychart-beta
-    title "Execution Time vs Number of Threads"
-    x-axis ["1 Thread", "2 Threads", "4 Threads", "8 Threads"]
-    y-axis "Time (seconds)" 0 --> 1.2
-    line [0.0291, 0.0312, 0.0332, 0.0351]
-    line [0.1693, 0.3102, 0.7677, 0.6753]
-    line [0.0594, 0.1689, 0.2413, 0.2146]
-    line [0.1713, 0.4681, 1.0604, 0.9675]
-```
-
-Series order: None, Critical, Atomic, Lock.
+![04_synchronization_performance.png](graphs/04_synchronization_performance.png)
 
 ### 10.2 Observations
 
