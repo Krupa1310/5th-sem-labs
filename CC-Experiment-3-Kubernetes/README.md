@@ -392,27 +392,75 @@ kubectl get pods -o wide
 
 Kubernetes provides a self-healing mechanism to maintain the desired number of application replicas.
 
-In this experiment, one running NGINX Pod was manually deleted.
+In this experiment, one running NGINX Pod was manually deleted to test the automatic recovery mechanism.
 
 ### Delete a Pod
 
+The following command was executed to delete one running NGINX Pod:
+
 ```powershell
-kubectl delete pod web-5fc9f4bf66-6429r
+kubectl delete pod web-5fc9f4bf66-4mxkh
 ```
 
-### Verify Pod Status
+Output:
+
+```text
+pod "web-5fc9f4bf66-4mxkh" deleted from default namespace
+```
+
+### Monitor Pod Status
+
+The following command was used to continuously monitor the Pods:
+
+```powershell
+kubectl get pods -w
+```
+
+The output showed that the deleted Pod disappeared and Kubernetes automatically created a replacement Pod.
+
+### Verify Final Deployment
+
+```powershell
+kubectl get deployments
+```
+
+Output:
+
+```text
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+web    6/6     6            6           8d
+```
+
+### Verify All Running Pods
 
 ```powershell
 kubectl get pods -o wide
 ```
 
-**Observation:**
+The replacement Pod appeared with the following details:
 
-1. One existing NGINX Pod was deleted.
-2. Kubernetes detected that the number of available replicas was below the desired count.
-3. The Deployment Controller created a replacement Pod.
-4. The replacement Pod reached the Running state.
-5. The application returned to six running replicas.
+| Property | Value |
+|---|---|
+| Deleted Pod | web-5fc9f4bf66-4mxkh |
+| Replacement Pod | web-5fc9f4bf66-q6jq6 |
+| Pod Status | Running |
+| Ready | 1/1 |
+| Pod IP | 10.244.1.5 |
+| Assigned Node | kind-worker2 |
+| Restarts | 0 |
+
+### Observation
+
+1. One existing NGINX Pod was manually deleted.
+2. Kubernetes detected that the number of replicas was below the desired count of six.
+3. The ReplicaSet controller automatically created a replacement Pod.
+4. The replacement Pod received a new name and IP address.
+5. The replacement Pod reached the Running state.
+6. The Deployment restored its desired replica count to six.
+
+**Final Result:**
+
+The Deployment successfully maintained six running NGINX Pods even after one Pod was manually deleted.
 
 This demonstrates the self-healing capability of Kubernetes.
 
@@ -437,7 +485,15 @@ The experiment was successfully completed.
 
 ### Final Observation
 
-The Kubernetes cluster successfully maintained six NGINX application replicas across two worker nodes. When one Pod was deleted, Kubernetes automatically created a replacement Pod and restored the desired replica count.
+The Kubernetes cluster successfully maintained six NGINX application replicas across two worker nodes.
+
+During the self-healing experiment, one NGINX Pod (`web-5fc9f4bf66-4mxkh`) was manually deleted.
+
+Kubernetes automatically created a replacement Pod (`web-5fc9f4bf66-q6jq6`) on `kind-worker2` with a new IP address of `10.244.1.5`.
+
+The Deployment successfully restored and maintained the desired replica count of 6/6.
+
+Thus, the experiment demonstrated Kubernetes application deployment, scaling, service exposure, and automatic Pod recovery.
 
 ---
 
@@ -471,6 +527,8 @@ Thus, the experiment provided practical knowledge of Kubernetes cluster manageme
 # 18. Final Output Screenshot
 
 The following screenshot shows the final Kubernetes output after deleting one NGINX Pod and verifying that Kubernetes automatically created a replacement.
+
+**Final Kubernetes Self-Healing Output**
 
 ![Final Kubernetes Self-Healing Output](screenshots/20-self-healing.png)
 
