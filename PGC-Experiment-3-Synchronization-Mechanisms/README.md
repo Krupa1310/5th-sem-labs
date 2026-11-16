@@ -408,25 +408,19 @@ Series order: None, Critical, Atomic, Lock.
 
 **Note:** These are experimental measurements from one run, not universal performance guarantees. The unsynchronized program contains a data race, so its behavior and timing are not reliable benchmarks.
 
-## 11. Screenshots
+## 11. Result Screenshots
 
-### 11.1 Synchronization Program Outputs
+### Synchronization Program Outputs
 
-This screenshot shows the execution outputs of the race condition, critical section, atomic operation, barrier, and semaphore programs.
+![Synchronization Program Outputs](screenshots/01_synchronization_outputs.png)
 
-![01_synchronization_outputs.png](https://github.com/Krupa1310/5th-sem-labs/raw/refs/heads/main/PGC-Experiment-3-Synchronization-Mechanisms/01_synchronization_outputs.png)
+### Performance Comparison
 
-### 11.2 Performance Comparison Output
+![Performance Comparison](screenshots/02_performance_comparison.png)
 
-This screenshot shows the comparison of synchronization mechanisms for 1, 2, 4, and 8 threads.
+### Successful Compilation
 
-![02_performance_comparison.png](https://github.com/Krupa1310/5th-sem-labs/raw/refs/heads/main/PGC-Experiment-3-Synchronization-Mechanisms/02_performance_comparison.png)
-
-### 11.3 Successful Compilation
-
-This screenshot shows the successful compilation commands for all six C programs.
-
-![03_successful_compilation.png](https://github.com/Krupa1310/5th-sem-labs/raw/refs/heads/main/PGC-Experiment-3-Synchronization-Mechanisms/03_successful_compilation.png)
+![Successful Compilation](screenshots/03_successful_compilation.png)
 
 ## 12. Conclusion
 
