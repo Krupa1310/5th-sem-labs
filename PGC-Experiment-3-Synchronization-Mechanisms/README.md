@@ -383,7 +383,7 @@ Expected correct final count: **10,000,000**.
 
 ### 10.1 Execution Time Comparison
 
-![04_synchronization_performance.png](graphs/04_synchronization_performance.png)
+![04_synchronization_performance_vertical.png](screenshots/04_synchronization_performance_vertical.png)
 
 ### 10.2 Observations
 
