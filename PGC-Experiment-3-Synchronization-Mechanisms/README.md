@@ -410,25 +410,23 @@ Series order: None, Critical, Atomic, Lock.
 
 ## 11. Screenshots
 
-The following images should be placed in the **same folder as this README.md file**. They will appear directly in this section on GitHub.
-
 ### 11.1 Synchronization Program Outputs
 
 This screenshot shows the execution outputs of the race condition, critical section, atomic operation, barrier, and semaphore programs.
 
-![Synchronization Program Outputs](01_synchronization_outputs.png)
+![01_synchronization_outputs.png](01_synchronization_outputs.png)
 
 ### 11.2 Performance Comparison Output
 
 This screenshot shows the comparison of synchronization mechanisms for 1, 2, 4, and 8 threads.
 
-![Performance Comparison](02_performance_comparison.png)
+![02_performance_comparison.png](02_performance_comparison.png)
 
 ### 11.3 Successful Compilation
 
 This screenshot shows the successful compilation commands for all six C programs.
 
-![Successful Compilation](03_successful_compilation.png)
+![03_successful_compilation.png](03_successful_compilation.png)
 
 ## 12. Conclusion
 
