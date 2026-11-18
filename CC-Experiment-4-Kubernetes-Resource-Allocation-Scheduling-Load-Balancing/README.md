@@ -317,6 +317,39 @@ kubectl delete deployment resource-demo
 Resource allocation, pod scheduling, and Service-based load balancing were analyzed using the existing three-node Kubernetes cluster.
 
 An Nginx Deployment was configured with CPU and memory requests and limits, scaled from six to twelve replicas, and exposed using a NodePort Service. Pod distribution, resource utilization, and Service endpoints were observed.
+cat >> README.md <<'EOF'
+
+## Result Screenshots
+
+### 1. Three-Node Kubernetes Cluster
+![Cluster Nodes](screenshots/01-cluster-nodes.png)
+
+### 2. Node Resource Metrics
+![Node Metrics](screenshots/02-node-metrics.png)
+
+### 3. Deployment Creation
+![Deployment](screenshots/03-deployment.png)
+
+### 4. Six Pod Scheduling
+![Six Pods](screenshots/04-six-pods.png)
+
+### 5. Resource Requests and Limits
+![Resource Requests and Limits](screenshots/05-resource-requests-limits.png)
+
+### 6. Pod Resource Metrics
+![Pod Metrics](screenshots/06-pod-metrics.png)
+
+### 7. Scaling to Twelve Pods
+![Twelve Pods](screenshots/07-scaled-to-12-pods.png)
+
+### 8. NodePort Service
+![NodePort Service](screenshots/08-nodeport-service.png..PNG)
+
+### 9. Service Endpoints
+![Service Endpoints](screenshots/09-service-endpoints.png)
+
+### 10. NGINX Browser Output
+![NGINX Browser](screenshots/10-nginx-browser.png)
 
 ---
 
