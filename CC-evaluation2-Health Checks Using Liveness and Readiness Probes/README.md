@@ -2,38 +2,38 @@
 
 ## 📑 Table of Contents
 
-1. Problem Statement
-2. Objectives
-3. Kubernetes Health Probes
-   - 3.1 Liveness Probe
-   - 3.2 Readiness Probe
-   - 3.3 Startup Probe
-   - 3.4 Probe Mechanisms
-   - 3.5 Probe Parameters
-4. Application Implementation
-   - 4.1 Flask Application
-   - 4.2 Liveness and Readiness Endpoints
-   - 4.3 Docker Configuration
-5. Kubernetes Deployment
-   - 5.1 Deployment Configuration
-   - 5.2 Service Configuration
-   - 5.3 Architecture
-6. Execution Steps
-   - 6.1 Prerequisites
-   - 6.2 Environment Setup
-   - 6.3 Build Docker Images
-   - 6.4 Deploy to Kubernetes
-   - 6.5 Access the Dashboard
-7. Failure Scenarios and Testing
-   - 7.1 Scenario A - Liveness Failure
-   - 7.2 Scenario B - Readiness Failure
-   - 7.3 Scenario C - Slow Start-up
-8. Expected Observations
-9. Performance and Health Monitoring
-10. Troubleshooting
-11. Project Structure
-12. Conclusion
-13. Author
+1. [Problem Statement](#1-problem-statement)
+2. [Objectives](#2-objectives)
+3. [Kubernetes Health Probes](#3-kubernetes-health-probes)
+   - [3.1 Liveness Probe](#31-liveness-probe)
+   - [3.2 Readiness Probe](#32-readiness-probe)
+   - [3.3 Startup Probe](#33-startup-probe)
+   - [3.4 Probe Mechanisms](#34-probe-mechanisms)
+   - [3.5 Probe Parameters](#35-probe-parameters)
+4. [Application Implementation](#4-application-implementation)
+   - [4.1 Flask Application](#41-flask-application)
+   - [4.2 Liveness and Readiness Endpoints](#42-liveness-and-readiness-endpoints)
+   - [4.3 Docker Configuration](#43-docker-configuration)
+5. [Kubernetes Deployment](#5-kubernetes-deployment)
+   - [5.1 Deployment Configuration](#51-deployment-configuration)
+   - [5.2 Service Configuration](#52-service-configuration)
+   - [5.3 Architecture](#53-architecture)
+6. [Execution Steps](#6-execution-steps)
+   - [6.1 Prerequisites](#61-prerequisites)
+   - [6.2 Environment Setup](#62-environment-setup)
+   - [6.3 Build Docker Images](#63-build-docker-images)
+   - [6.4 Deploy to Kubernetes](#64-deploy-to-kubernetes)
+   - [6.5 Access the Dashboard](#65-access-the-dashboard)
+7. [Failure Scenarios and Testing](#7-failure-scenarios-and-testing)
+   - [7.1 Scenario A - Liveness Failure](#71-scenario-a---liveness-failure)
+   - [7.2 Scenario B - Readiness Failure](#72-scenario-b---readiness-failure)
+   - [7.3 Scenario C - Slow Start-up](#73-scenario-c---slow-start-up)
+8. [Expected Observations](#8-expected-observations)
+9. [Performance and Health Monitoring](#9-performance-and-health-monitoring)
+10. [Troubleshooting](#10-troubleshooting)
+11. [Project Structure](#11-project-structure)
+12. [Conclusion](#12-conclusion)
+13. [Author](#13-author)
 
 ---
 
