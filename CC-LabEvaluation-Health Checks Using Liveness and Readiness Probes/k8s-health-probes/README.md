@@ -770,4 +770,7 @@ A Persistent Volume Claim stores student records beyond container and pod restar
 
 ## 👥 Authors
 
-_Add the team members' names and USNs here._
+Krupa
+Monika
+Srujana B
+Srujana P
