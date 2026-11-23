@@ -33,20 +33,9 @@ Installation and Environment Setup
 6.4 Developer Command Prompt
 6.5 System Verification
 Part A - CUDA Kernel Implementation
-7.1 Matrix Multiplication with Bias
-7.2 ReLU Kernel
-7.3 Sigmoid Kernel
 Part B - CPU Implementation
 Part C - GPU Forward Pass
-9.1 GPU Memory Allocation
-9.2 Host-to-Device Data Transfer
-9.3 Kernel Launch
-9.4 Device-to-Host Data Transfer
 Part D - Performance Evaluation
-10.1 CPU Execution Time
-10.2 GPU Kernel-Only Execution Time
-10.3 GPU End-to-End Execution Time
-10.4 Speedup Calculation
 Execution Steps
 Expected Output
 Experimental Results
@@ -56,6 +45,8 @@ Troubleshooting
 Precautions
 Conclusion
 Author
+
+
 1. Problem Statement
 
 Neural networks perform computations involving matrix multiplication, bias addition, and activation functions.
