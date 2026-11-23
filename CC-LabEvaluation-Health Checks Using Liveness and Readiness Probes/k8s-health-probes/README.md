@@ -672,7 +672,7 @@ The expected behaviour of each probe scenario is summarized below. These are the
 - Persistent storage keeps student records separate from the lifecycle of individual containers and pods.
 - The monitoring dashboard makes the probe and recovery behaviour visible during the demonstration.
 
-## 🔌 Student Management API
+## Student Management API
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -699,7 +699,7 @@ Control endpoints used for demonstrations:
 | `POST` | `/control/reset` | Clear injected failures |
 | `POST` | `/crash` | Liveness-failure demonstration alias |
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 | Problem | Suggested Check / Solution |
 |---|---|
@@ -714,7 +714,7 @@ Control endpoints used for demonstrations:
 
 **Data warning:** The cleanup script keeps the persistent volume by default. Use the purge option only when you intentionally want to delete the stored student database.
 
-## 🧠 Design Points for Evaluation
+## Design Points for Evaluation
 
 These are useful points to explain while demonstrating the project:
 
@@ -724,7 +724,7 @@ These are useful points to explain while demonstrating the project:
 4. **The dashboard observes cluster state.** Pod status, restart counts, endpoints and events are read from the Kubernetes API. The dashboard is a monitoring and demonstration interface; Kubernetes and the kubelet make the probe and restart decisions.
 5. **Persistent storage is separate from pod lifecycle.** Student records are stored on the PVC, not only in the container filesystem, so they can survive container restarts and pod replacement.
 
-## 💡 Best Practices
+##  Best Practices
 
 - Keep health-check endpoints lightweight so they return quickly and do not add unnecessary load.
 - Avoid checking the database or another external dependency in the liveness endpoint. Restarting every application pod during a database outage does not repair the database and can make recovery harder.
@@ -732,7 +732,7 @@ These are useful points to explain while demonstrating the project:
 - Choose probe periods, timeouts and thresholds based on measured startup and response times. Values that are too aggressive can cause unnecessary restarts; values that are too relaxed can delay failure detection.
 - Use a startup probe when an application needs extra time to initialize, and keep important application data on persistent storage rather than in the container filesystem.
 
-## 🛡️ Automatic Demo Mode Safety
+## Automatic Demo Mode Safety
 
 - Only one injected failure is active at a time.
 - A failure is injected only when the application pods are healthy, no other failure is active and no rollout is in progress.
@@ -741,7 +741,7 @@ These are useful points to explain while demonstrating the project:
 - The default interval is 120 seconds and the minimum supported interval is 45 seconds.
 - Demo mode is enabled by default in `k8s/dashboard.yaml` (`DEMO_MODE: "on"`). It can be paused using the dashboard checkbox or by setting it to `"off"` in the manifest and applying the dashboard configuration again.
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 - SQLite on a `ReadWriteOnce` volume is intended for a single-node local Kubernetes cluster such as Docker Desktop. The three pods share the volume on the same node. For a multi-node cluster, use a suitable database service such as MySQL/PostgreSQL or a `ReadWriteMany` storage solution.
 - The Flask built-in development server is suitable for this lab demonstration; a production deployment should use a production WSGI server such as Gunicorn.
@@ -749,7 +749,7 @@ These are useful points to explain while demonstrating the project:
 - Automatic demo history and toggle state are held in dashboard memory, so restarting the dashboard resets that state to the values in the YAML configuration.
 - The demo control endpoints (`/control/*`) are intentionally unauthenticated for the lab demonstration. Do not expose this configuration as a production service.
 
-## 📂 Files and Responsibilities
+##Files and Responsibilities
 
 | Folder / File | Purpose |
 |---|---|
