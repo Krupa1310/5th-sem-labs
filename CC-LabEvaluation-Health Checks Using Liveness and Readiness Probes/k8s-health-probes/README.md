@@ -1,6 +1,6 @@
-# ☸️ KUBERNETES HEALTH CHECKS USING LIVENESS AND READINESS PROBES
+# KUBERNETES HEALTH CHECKS USING LIVENESS AND READINESS PROBES
 
-## 🧪 CLOUD COMPUTING — LAB EVALUATION
+## CLOUD COMPUTING — LAB EVALUATION
 
 **Student Management Application with Startup, Liveness and Readiness Probes**
 
@@ -120,7 +120,7 @@ The Student Management upgrade extends the original Kubernetes health-check demo
 
 The image tags were changed from `:1.0` to `:2.0` so Kubernetes creates updated pods when the pod specification changes. Rebuilding an image with the same tag may otherwise leave existing pods running the older image.
 
-## 🛠️ Technologies and Configuration
+##  Technologies and Configuration
 
 | Component | Technology / Configuration |
 |---|---|
@@ -142,7 +142,7 @@ The image tags were changed from `:1.0` to `:2.0` so Kubernetes creates updated 
 | Dashboard Image | `health-dashboard:2.0` |
 | Health Endpoints | `/startupz`, `/healthz`, `/ready` |
 
-## 🏗️ Architecture
+##  Architecture
 
 The project contains a Student Management application and a monitoring dashboard deployed inside a Kubernetes cluster.
 
@@ -415,7 +415,7 @@ If an application pod cannot access `/data/students.db`, its `/ready` endpoint r
 
 The dashboard can automatically inject short-lived liveness and readiness failures, one at a time. It records detection and recovery information so the evaluator can observe the behaviour without manually triggering every scenario.
 
-## ⚙️ Execution
+## Execution
 
 ### Prerequisites
 
@@ -554,7 +554,7 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:30090/api/demo" -ContentTy
 
 **Verification note:** `docs/VERIFIED_RUN.md` contains a real-cluster run of the earlier version of the probe demonstration (before the Student Management and startup-probe upgrade). Its 23/23 scenario checks are historical evidence for that earlier version; they should not be presented as a live test of the current upgraded deployment. The current upgrade's README records offline test coverage separately.
 
-## 🖥️ Demonstration Procedure
+## Demonstration Procedure
 
 Open the Student Management application and monitoring dashboard. In another PowerShell terminal, watch the application pods:
 
