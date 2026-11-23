@@ -31,7 +31,7 @@ The project documentation distinguishes offline and simulated checks from tests 
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Verification Scope](#0️⃣-verification-scope--what-was-tested-and-what-was-not)
 2. [Aim](#-aim)
@@ -61,11 +61,11 @@ The project documentation distinguishes offline and simulated checks from tests 
 26. [Conclusion](#-conclusion)
 27. [Authors](#-authors)
 
-## 🎯 Aim
+## Aim
 
 To deploy a Student Management application on Kubernetes and implement startup, liveness and readiness probes to monitor application health. The experiment demonstrates how Kubernetes detects startup delays and application failures, restarts unhealthy containers, removes unready pods from Service endpoints, and maintains application availability using multiple replicas. Persistent storage and a monitoring dashboard are also used to demonstrate data retention and cluster health.
 
-## 📌 Problem Statement
+## Problem Statement
 
 Applications deployed in containers may take time to start, become temporarily unable to serve requests, or stop functioning correctly. Kubernetes must distinguish between an application that is still starting, an application that needs to be restarted, and an application that is running but cannot currently handle user requests.
 
@@ -77,7 +77,7 @@ In this experiment, a Student Management web application is deployed on Kubernet
 
 A monitoring dashboard displays the actual Kubernetes pod state and provides controlled demonstrations of liveness failure, readiness failure and slow startup.
 
-## 🎯 Objectives
+## Objectives
 
 The main objectives of this experiment are:
 
@@ -92,7 +92,7 @@ The main objectives of this experiment are:
 - To store student records using a Persistent Volume Claim.
 - To monitor pods, probes, endpoints, events and restart counts through a dashboard.
 
-## 🔄 What Changed and What Was Kept
+## What Changed and What Was Kept
 
 The Student Management upgrade extends the original Kubernetes health-check demonstration while preserving its main deployment and dashboard workflow.
 
