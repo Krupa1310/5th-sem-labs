@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Management</title>
+<style>
+  :root{
+    --bg:#f3f5fa; --card:#fff; --ink:#18202f; --muted:#667189; --line:#e2e7f1;
+    --brand:#2457d6; --brand-ink:#fff; --brandbg:#e6edff;
+    --ok:#12805c; --okbg:#e3f6ee; --bad:#b4232a; --badbg:#fde8e9; --warn:#a15c00; --warnbg:#fff1d9;
+    --shadow:0 1px 2px rgba(20,30,60,.06),0 4px 14px rgba(20,30,60,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1420; --card:#171d2c; --ink:#e8ecf5; --muted:#93a0b8; --line:#2a3348;
+      --brand:#6e93ff; --brand-ink:#0b1226; --brandbg:#1b2750;
+      --ok:#4cd6a0; --okbg:#10352a; --bad:#ff7b82; --badbg:#3d1a1d; --warn:#ffc15a; --warnbg:#3a2c10;
+      --shadow:none; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{background:var(--card);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:38px;height:38px;border-radius:10px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-weight:800}
+  h1{font-size:19px;margin:0;line-height:1.2}
+  .sub{color:var(--muted);font-size:13px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .chip{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--brandbg);color:var(--brand);text-decoration:none}
+  .chip.ok{background:var(--okbg);color:var(--ok)} .chip.bad{background:var(--badbg);color:var(--bad)}
+  main.wrap{padding-top:22px;padding-bottom:60px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  .stat{padding:14px 18px}
+  .stat .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .stat .v{font-size:28px;font-weight:700}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:14px;border-bottom:1px solid var(--line)}
+  .search{flex:1 1 260px;position:relative}
+  input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 12px;width:100%}
+  input:focus,select:focus,button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+  button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 15px;border-radius:9px;cursor:pointer}
+  button.primary{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+  button.danger{background:var(--badbg);color:var(--bad);border-color:transparent}
+  button.sm{padding:5px 11px;font-size:13px}
+  button:disabled{opacity:.55;cursor:not-allowed}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:10px 14px;border-bottom:1px solid var(--line)}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}
+  .actions{display:flex;gap:6px;justify-content:flex-end}
+  .sem{display:inline-block;min-width:28px;text-align:center;padding:2px 9px;border-radius:99px;background:var(--brandbg);color:var(--brand);font-weight:700;font-size:13px}
+  .empty{padding:40px 16px;text-align:center;color:var(--muted)}
+  #banner{display:none;margin-bottom:14px;padding:11px 16px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-weight:600}
+  dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:0;width:min(520px,calc(100vw - 28px));box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  dialog::backdrop{background:rgba(10,15,30,.5)}
+  .dlg{padding:20px 22px}
+  .dlg h2{margin:0 0 14px;font-size:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field{margin-bottom:12px} .field label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+  .field .err{color:var(--bad);font-size:12.5px;min-height:0;margin-top:3px}
+  .field.bad input,.field.bad select{border-color:var(--bad)}
+  .dlg .row{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:10px;display:none;max-width:90vw;z-index:20;font-size:14px}
+  #toast.bad{background:var(--bad);color:#fff}
+  @media (max-width:680px){
+    thead{display:none}
+    table,tbody,tr,td{display:block;width:100%}
+    tr{padding:12px 14px;border-bottom:1px solid var(--line)}
+    td{border:none;padding:2px 0}
+    td[data-l]::before{content:attr(data-l) ": ";color:var(--muted);font-size:12px}
+    .actions{justify-content:flex-start;margin-top:8px}
+    .grid2{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(3,1fr);gap:8px} .stat{padding:10px 12px} .stat .v{font-size:22px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div class="brand">
+      <div class="logo">SM</div>
+      <div><h1>Student Management</h1><div class="sub">Records are stored in a persistent database</div></div>
+    </div>
+    <div class="chips">
+      <span class="chip" id="pod" title="The pod that answered your last request">pod: …</span>
+      <a class="chip" id="dashlink" href="#" target="_blank" rel="noopener">Open monitoring dashboard ↗</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banner" role="status"></div>
+  <div class="stats">
+    <div class="card stat"><div class="l">Total students</div><div class="v" id="s-total">–</div></div>
+    <div class="card stat"><div class="l">Showing</div><div class="v" id="s-shown">–</div></div>
+    <div class="card stat"><div class="l">Departments</div><div class="v" id="s-depts">–</div></div>
+  </div>
+
+  <div class="card">
+    <div class="toolbar">
+      <div class="search"><input id="q" type="search" placeholder="Search by ID, name, email, department or semester…" aria-label="Search students" autocomplete="off"></div>
+      <button class="primary" id="add">+ Add student</button>
+    </div>
+    <table>
+      <thead><tr><th>Student ID</th><th>Name</th><th>Email</th><th>Department</th><th>Semester</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" style="display:none"></div>
+  </div>
+</main>
+
+<dialog id="form-dlg">
+  <form class="dlg" id="form" novalidate>
+    <h2 id="form-title">Add student</h2>
+    <div class="grid2">
+      <div class="field" data-f="student_id"><label for="f-student_id">Student ID</label><input id="f-student_id" name="student_id" maxlength="20" placeholder="e.g. 01FE23BCS001"><div class="err"></div></div>
+      <div class="field" data-f="semester"><label for="f-semester">Semester</label>
+        <select id="f-semester" name="semester"><option value="">Select…</option></select><div class="err"></div></div>
+    </div>
+    <div class="field" data-f="name"><label for="f-name">Full name</label><input id="f-name" name="name" maxlength="100"><div class="err"></div></div>
+    <div class="field" data-f="email"><label for="f-email">Email</label><input id="f-email" name="email" type="email" maxlength="120"><div class="err"></div></div>
+    <div class="field" data-f="department"><label for="f-department">Department</label><input id="f-department" name="department" maxlength="60" list="dept-list" placeholder="e.g. Computer Science and Engineering"><datalist id="dept-list"></datalist><div class="err"></div></div>
+    <div class="err" id="form-err" style="color:var(--bad);font-size:13px"></div>
+    <div class="row"><button type="button" id="cancel">Cancel</button><button type="submit" class="primary" id="save">Save</button></div>
+  </form>
+</dialog>
+
+<dialog id="del-dlg">
+  <div class="dlg">
+    <h2>Delete student?</h2>
+    <p id="del-text" class="sub" style="font-size:14px"></p>
+    <div class="row"><button type="button" id="del-cancel">Cancel</button><button type="button" class="danger" id="del-ok">Delete</button></div>
+  </div>
+</dialog>
+<div id="toast" role="status"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const API = "/api/students";
+let editingId = null, deletingId = null, searchTimer = null, students = [], total = null;
+
+// dashboard link: same host, NodePort 30090
+$("dashlink").href = `${location.protocol}//${location.hostname}:30090/`;
+for (let i = 1; i <= 8; i++) $("f-semester").add(new Option("Semester " + i, i));
+
+function toast(msg, bad){ const t=$("toast"); t.textContent=msg; t.className=bad?"bad":""; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",4500); }
+function banner(msg){ const b=$("banner"); b.style.display=msg?"block":"none"; b.textContent=msg||""; }
+
+async function api(path, opts={}){
+  let r;
+  try { r = await fetch(path, {headers:{"Content-Type":"application/json"}, ...opts}); }
+  catch(e){ const err = new Error("Cannot reach the server (a pod may be restarting). Retrying…"); err.network = true; throw err; }
+  const pod = r.headers.get("X-Served-By"); if (pod) $("pod").textContent = "pod: " + pod;
+  let body = null; try { body = await r.json(); } catch(e){}
+  if (!r.ok){ const err = new Error((body && body.error) || r.statusText); err.fields = body && body.fields; err.status = r.status; throw err; }
+  return body;
+}
+
+function cell(tr, text, cls, label){ const td=document.createElement("td"); if(label) td.dataset.l=label; if(cls) td.className=cls; td.textContent=text; tr.appendChild(td); return td; }
+
+function render(){
+  const tb = $("rows"); tb.replaceChildren();
+  for (const s of students){
+    const tr = document.createElement("tr");
+    cell(tr, s.student_id, "mono", "ID"); cell(tr, s.name, "", "Name"); cell(tr, s.email, "", "Email"); cell(tr, s.department, "", "Dept");
+    const sem = cell(tr, "", "", "Semester"); const b = document.createElement("span"); b.className="sem"; b.textContent=s.semester; sem.appendChild(b);
+    const act = document.createElement("td"); const d = document.createElement("div"); d.className="actions";
+    const e = document.createElement("button"); e.className="sm"; e.textContent="Edit"; e.onclick=()=>openForm(s);
+    const x = document.createElement("button"); x.className="sm danger"; x.textContent="Delete"; x.onclick=()=>askDelete(s);
+    d.append(e,x); act.appendChild(d); tr.appendChild(act); tb.appendChild(tr);
+  }
+  const q = $("q").value.trim();
+  $("empty").style.display = students.length ? "none" : "block";
+  $("empty").textContent = q ? `No students match “${q}”.` : "No students yet. Click “Add student” to create the first record.";
+  $("s-shown").textContent = students.length;
+  if (total !== null) $("s-total").textContent = total;
+  $("s-depts").textContent = new Set(students.map(s=>s.department.toLowerCase())).size;
+  $("dept-list").replaceChildren(...[...new Set(students.map(s=>s.department))].map(v=>{const o=document.createElement("option"); o.value=v; return o;}));
+}
+
+async function load(){
+  const q = $("q").value.trim();
+  try{
+    const d = await api(API + (q ? "?q=" + encodeURIComponent(q) : ""));
+    students = d.students; if (!q) total = d.count;
+    else { try { total = (await api(API)).count; } catch(e){} }
+    banner(""); render();
+  }catch(e){ banner(e.message); }
+}
+
+function clearErrors(){ document.querySelectorAll(".field").forEach(f=>{f.classList.remove("bad"); f.querySelector(".err").textContent="";}); $("form-err").textContent=""; }
+function showErrors(e){
+  let shown = false;
+  for (const [k,v] of Object.entries(e.fields||{})){ const f=document.querySelector(`.field[data-f="${k}"]`); if(f){ f.classList.add("bad"); f.querySelector(".err").textContent=v; shown=true; } }
+  if (!shown) $("form-err").textContent = e.message;
+}
+function openForm(s){
+  editingId = s ? s.id : null; clearErrors();
+  $("form-title").textContent = s ? "Edit student" : "Add student";
+  $("f-student_id").value = s ? s.student_id : ""; $("f-name").value = s ? s.name : "";
+  $("f-email").value = s ? s.email : ""; $("f-department").value = s ? s.department : "";
+  $("f-semester").value = s ? s.semester : "";
+  $("form-dlg").showModal(); $("f-student_id").focus();
+}
+$("add").onclick = () => openForm(null);
+$("cancel").onclick = () => $("form-dlg").close();
+$("form").addEventListener("submit", async ev => {
+  ev.preventDefault(); clearErrors();
+  const body = { student_id:$("f-student_id").value, name:$("f-name").value, email:$("f-email").value,
+                 department:$("f-department").value, semester:$("f-semester").value };
+  $("save").disabled = true;
+  try{
+    await api(editingId ? `${API}/${editingId}` : API, {method: editingId ? "PUT":"POST", body: JSON.stringify(body)});
+    $("form-dlg").close(); toast(editingId ? "Student updated." : "Student added."); await load();
+  }catch(e){ showErrors(e); }
+  $("save").disabled = false;
+});
+
+function askDelete(s){ deletingId = s.id; $("del-text").textContent = `${s.name} (${s.student_id}) will be permanently removed.`; $("del-dlg").showModal(); }
+$("del-cancel").onclick = () => $("del-dlg").close();
+$("del-ok").onclick = async () => {
+  $("del-ok").disabled = true;
+  try{ await api(`${API}/${deletingId}`, {method:"DELETE"}); $("del-dlg").close(); toast("Student deleted."); await load(); }
+  catch(e){ $("del-dlg").close(); toast(e.message, true); }
+  $("del-ok").disabled = false;
+};
+
+$("q").addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(load, 250); });
+load(); setInterval(() => { if(!$("form-dlg").open && !$("del-dlg").open) load(); }, 15000);
+</script>
+</body>
+</html>
