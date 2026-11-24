@@ -1,829 +1,574 @@
-PGC Experiment 5 - Neural Network Layers in CUDA
+# Experiment 5: Neural Network Layers in CUDA
 
-A Parallel and Distributed Computing laboratory experiment implementing basic neural-network layers using custom CUDA kernels.
+A Parallel and Distributed Computing laboratory experiment implementing basic neural-network layers using custom CUDA kernels and comparing CPU and GPU execution performance.
 
-The experiment implements and compares:
+This experiment implements matrix multiplication with bias, ReLU activation, and sigmoid activation. The operations are combined into a two-layer neural-network forward pass. The same computation is performed on the CPU and GPU to validate numerical correctness and measure execution time and GPU speedup.
 
-Matrix multiplication with bias using a custom CUDA kernel.
-ReLU activation using CUDA.
-Sigmoid activation using CUDA.
-A two-layer neural-network forward pass on CPU and GPU.
-Numerical correctness validation between CPU and GPU outputs.
-GPU kernel-only and end-to-end execution time.
-GPU speedup calculation.
+## Table of Contents
 
-The experiment demonstrates how CUDA parallelism accelerates neural-network computations by distributing matrix and activation operations across GPU threads.
-
-
-Table of Contents
-Problem Statement
-Objectives
-Components and Configuration
-Theory
-4.1 Neural Network Forward Pass
-4.2 Matrix Multiplication with Bias
-4.3 ReLU Activation
-4.4 Sigmoid Activation
-4.5 CUDA Programming Model
-4.6 CPU and GPU Execution
-System Architecture
-Installation and Environment Setup
-6.1 NVIDIA GPU Driver
-6.2 CUDA Toolkit
-6.3 Visual Studio Build Tools
-6.4 Developer Command Prompt
-6.5 System Verification
-Part A - CUDA Kernel Implementation
-7.1 Matrix Multiplication with Bias
-7.2 ReLU Kernel
-7.3 Sigmoid Kernel
-Part B - CPU Implementation
-Part C - GPU Forward Pass
-9.1 GPU Memory Allocation
-9.2 Host-to-Device Data Transfer
-9.3 Kernel Launch
-9.4 Device-to-Host Data Transfer
-Part D - Performance Evaluation
-10.1 CPU Execution Time
-10.2 GPU Kernel-Only Execution Time
-10.3 GPU End-to-End Execution Time
-10.4 Speedup Calculation
-Execution Steps
-Expected Output
-Experimental Results
-13.1 Individual CUDA Kernel Tests
-13.2 CPU and GPU Performance Comparison
-13.3 Numerical Correctness
-13.4 Speedup Comparison
-Observation and Comparison
-Limitations
-Troubleshooting
-Precautions
-Conclusion
-Author
-
-1. Problem Statement
-
-Neural networks perform computations involving matrix multiplication, bias addition, and activation functions.
-
-In traditional CPU execution, these operations are performed using sequential or CPU-based parallel processing. GPUs provide thousands of parallel processing threads that can accelerate computationally intensive neural-network operations.
-
-This experiment implements a two-layer neural network using custom CUDA kernels.
-
-The network performs the following operations:
-
-Layer 1:
-
-Z1 = X × W1 + b1
-
-A1 = ReLU(Z1)
-
-Layer 2:
-
-Z2 = A1 × W2 + b2
-
-Y = Sigmoid(Z2)
-
-The same forward pass is implemented on both CPU and GPU.
-
-The experiment compares execution times, validates numerical correctness, and calculates GPU speedup.
-
-This experiment performs inference only. It does not implement training, loss calculation, optimization, or backpropagation.
-
+1. Aim
 2. Objectives
+3. Hardware and Software Requirements
+4. Theory
+   - 4.1 Neural Network Forward Pass
+   - 4.2 Matrix Multiplication with Bias
+   - 4.3 ReLU Activation
+   - 4.4 Sigmoid Activation
+   - 4.5 CPU and GPU Execution
+5. Network Configuration
+6. System Architecture
+7. Implementation Overview
+8. Compilation and Execution
+9. Kernel Testing and Validation
+10. Performance Measurement
+11. Observation and Comparison
+12. Execution Screenshots
+13. Precautions
+14. Troubleshooting
+15. Conclusion
+16. Author
+
+---
+
+## 1. Aim
+
+To implement and evaluate basic neural-network layers using custom CUDA kernels:
+
+- Matrix multiplication with bias
+- ReLU activation
+- Sigmoid activation
+
+Execute the same forward pass on the CPU and GPU, validate numerical correctness, measure execution time, and calculate GPU speedup.
+
+## 2. Objectives
 
 The objectives of this experiment are:
 
-To understand CUDA kernels, blocks, threads, and grid dimensions.
-To implement matrix multiplication with bias using CUDA.
-To implement ReLU activation using CUDA.
-To implement sigmoid activation using CUDA.
-To understand GPU memory allocation and data transfer.
-To execute neural-network operations on CPU and GPU.
-To validate CPU and GPU numerical results.
-To measure CPU and GPU execution time.
-To calculate kernel-only and end-to-end GPU speedup.
-To understand the performance benefits of GPU parallelism.
-3. Components and Configuration
-3.1 Hardware Configuration
-Component	Configuration
-Host System	Windows 10/11
-GPU	NVIDIA CUDA-capable GPU
-Demonstrated GPU	NVIDIA RTX 4500 Ada Generation
-CPU	System processor
-System Memory	Sufficient RAM for CUDA execution
-GPU Memory	Sufficient VRAM for network tensors
-3.2 Software Requirements
-Software / Tool	Purpose
-Windows 10/11	Operating system
-NVIDIA GPU Driver	GPU communication
-CUDA Toolkit 13.0	CUDA compilation and runtime
-NVIDIA NVCC	CUDA compiler
-Visual Studio 2022 Build Tools	C++ compilation
-MSVC v143	C++ compiler
-Windows SDK	Windows development support
-Developer Command Prompt	CUDA compilation environment
-Notepad	Source code editing
-Git	Version control
-GitHub	Source code and documentation
-3.3 Compiler and Runtime Configuration
-Component	Configuration
-CUDA Toolkit	13.0
-Compiler	NVCC
-C++ Compiler	MSVC v143
-Build Configuration	-O2
-Source File	neural_network.cu
-Executable	neural_network.exe
-Batch Size	256
-Input Size	128
-Hidden Layer Size	64
-Output Size	10
-Repetitions	20
-Floating-Point Type	float
-CUDA Block Dimensions	16 × 16 for matrix kernels
-4. Theory
-4.1 Neural Network Forward Pass
+- To understand CUDA kernels, blocks, threads, and grid dimensions.
+- To implement matrix multiplication with bias using CUDA.
+- To implement ReLU and sigmoid activation kernels.
+- To allocate and transfer data between host and device memory.
+- To compare CPU and GPU computation results.
+- To measure CPU and GPU execution time.
+- To calculate kernel-only and end-to-end GPU speedup.
+- To validate the numerical correctness of the neural-network forward pass.
 
-A forward pass calculates the output of a neural network by passing input data through multiple layers.
+## 3. Hardware and Software Requirements
+
+### 3.1 Hardware Requirements
+
+| Component | Requirement |
+|---|---|
+| Processor | Windows-compatible 64-bit processor |
+| GPU | NVIDIA CUDA-capable GPU |
+| RAM | Sufficient system memory |
+| Operating System | Windows 10/11 64-bit |
+
+### 3.2 Software Requirements
+
+| Software / Tool | Purpose |
+|---|---|
+| NVIDIA GPU Driver | GPU driver support |
+| CUDA Toolkit | CUDA development environment |
+| NVCC | CUDA compiler |
+| Visual Studio 2022 Build Tools | C++ compilation |
+| MSVC v143 | Microsoft C++ compiler |
+| Windows SDK | Required build tools |
+| Git | Version control |
+| GitHub | Experiment documentation and screenshots |
+
+### 3.3 System Verification
+
+The following commands are used to verify the CUDA environment:
+
+```bash
+nvidia-smi
+nvcc --version
+where.exe nvcc
+where cl
+```
+
+The NVIDIA GPU driver, CUDA compiler, and Microsoft C++ compiler must be available before compiling the program.
+
+## 4. Theory
+
+A neural-network forward pass computes outputs by applying weighted sums and activation functions.
 
 This experiment uses a two-layer feed-forward neural network.
 
-First Layer:
+### 4.1 Neural Network Forward Pass
 
+The network performs the following operations:
+
+**Layer 1:**
+
+```text
 Z1 = X × W1 + b1
-
 A1 = ReLU(Z1)
+```
 
-Second Layer:
+**Layer 2:**
 
+```text
 Z2 = A1 × W2 + b2
-
 Y = Sigmoid(Z2)
+```
 
-Where:
+The forward pass consists of matrix multiplication with bias followed by activation functions.
 
-X represents the input matrix.
-W1 and W2 represent weight matrices.
-b1 and b2 represent bias vectors.
-Z1 and Z2 represent intermediate outputs.
-A1 represents the hidden-layer activation.
-Y represents the final network output.
-4.2 Matrix Multiplication with Bias
+This experiment performs inference (forward propagation) only. It does not include training, loss calculation, optimization, or backpropagation.
 
-Matrix multiplication combines input values with weights to produce output values.
+### 4.2 Matrix Multiplication with Bias
 
 For matrices A and B:
 
-A has dimensions M × K.
-B has dimensions K × N.
-C has dimensions M × N.
+- A has dimensions M × K.
+- B has dimensions K × N.
+- The output C has dimensions M × N.
 
-The operation is:
+The computation is:
 
+```text
 C[row, col] = Σ A[row, k] × B[k, col] + bias[col]
+```
 
-In CUDA, each thread calculates one output matrix element.
+Each CUDA thread calculates one output matrix element and adds the corresponding bias value.
 
-Thread indexing uses:
-
-blockIdx: Identifies the block.
-blockDim: Specifies the number of threads in a block.
-threadIdx: Identifies the thread within a block.
-
-Boundary checks prevent threads from accessing invalid matrix positions.
-
-4.3 ReLU Activation
+### 4.3 ReLU Activation
 
 ReLU stands for Rectified Linear Unit.
 
-Mathematical expression:
+Formula:
 
+```text
 ReLU(x) = max(0, x)
+```
 
-It replaces negative values with zero while preserving positive values.
-
-Example:
-
-Input: [-2, 0, 3, -4, 5]
-
-Output: [0, 0, 3, 0, 5]
+- Negative values are converted to zero.
+- Positive values remain unchanged.
 
 Each CUDA thread processes one array element.
 
-4.4 Sigmoid Activation
+### 4.4 Sigmoid Activation
 
-The sigmoid function converts real-valued inputs into values between 0 and 1.
+The sigmoid activation function maps real-valued inputs into values between 0 and 1.
 
-Mathematical expression:
+Formula:
 
+```text
 Sigmoid(x) = 1 / (1 + exp(-x))
+```
 
-Example:
+Each CUDA thread processes one element.
 
-Input	Output
--2	0.119203
-0	0.500000
-2	0.880797
+### 4.5 CPU and GPU Execution
 
-Each CUDA thread calculates one sigmoid output.
+**CPU Execution:**
 
-4.5 CUDA Programming Model
+- Uses ordinary nested loops and standard C++ functions.
+- Performs the complete neural-network forward pass.
+- Acts as the reference computation for comparison.
 
-CUDA is NVIDIA's parallel computing platform.
+**GPU Execution:**
 
-Its execution model contains:
-
-Grid: Collection of thread blocks.
-Block: Collection of CUDA threads.
-Thread: Smallest execution unit.
-Kernel: Function executed on the GPU.
-
-A CUDA kernel is launched using the following syntax:
-
-cpp
-kernelName<<<grid, block>>>(arguments);
-
-
-For matrix multiplication, the experiment uses:
-
-cpp
-dim3 block(16, 16);
-
-
-Each block contains 256 threads.
-
-The grid dimensions are calculated based on the output matrix dimensions.
-
-4.6 CPU and GPU Execution
-
-CPU Execution:
-
-Uses ordinary C++ functions.
-Performs matrix multiplication using nested loops.
-Applies ReLU and sigmoid sequentially.
-Calculates the reference output.
-
-GPU Execution:
-
-Allocates device memory.
-Copies inputs, weights, and biases to the GPU.
-Launches CUDA kernels.
-Executes matrix multiplication and activation operations.
-Copies the final output back to the CPU.
+- Allocates device memory.
+- Transfers inputs, weights, and biases from host to device.
+- Launches CUDA kernels in sequence.
+- Copies the final output back to the host.
 
 CUDA kernels launched on the same default stream execute in launch order, preserving the forward-pass dependency.
 
-5. System Architecture
-5.1 Overall Experiment Architecture
-text
-              Input Matrix X
-                     |
-                     |
-             First Layer
-                     |
-          Matrix Multiplication
-                     |
-               Bias Addition
-                     |
-               ReLU Kernel
-                     |
-              Hidden Layer
-                     |
-          Matrix Multiplication
-                     |
-               Bias Addition
-                     |
-             Sigmoid Kernel
-                     |
-                     |
-              Final Output
-                     |
-          +----------+----------+
-          |                     |
-       CPU Output           GPU Output
-          |                     |
-          +----------+----------+
-                     |
-              Result Validation
-                     |
-              Maximum Difference
-                     |
-              Performance Analysis
-                     |
-               Speedup Calculation
+## 5. Network Configuration
 
-5.2 Network Configuration
+The experiment uses deterministic input values generated using sine and cosine functions. Therefore, the CPU and GPU receive identical inputs and weights.
 
-The experiment uses deterministic input and weight values generated using sine and cosine functions.
+### 5.1 Network Parameters
 
-This ensures that CPU and GPU receive identical input data.
+| Parameter | Value |
+|---|---:|
+| BATCH | 256 |
+| INPUT_SIZE | 128 |
+| HIDDEN_SIZE | 64 |
+| OUTPUT_SIZE | 10 |
+| REPEATS | 20 |
 
-Parameter	Value
-BATCH	256
-INPUT_SIZE	128
-HIDDEN_SIZE	64
-OUTPUT_SIZE	10
-REPEATS	20
-5.3 Tensor Dimensions
-Tensor	Dimensions
-Input X	256 × 128
-Weight W1	128 × 64
-Bias b1	64
-Hidden Activation A1	256 × 64
-Weight W2	64 × 10
-Bias b2	10
-Final Output Y	256 × 10
-6. Installation and Environment Setup
-6.1 NVIDIA GPU Driver
+### 5.2 Tensor Dimensions
 
-Open PowerShell and execute:
+| Tensor | Dimensions |
+|---|---|
+| Input X | 256 × 128 |
+| Weight W1 | 128 × 64 |
+| Bias b1 | 64 elements |
+| Hidden activation | 256 × 64 |
+| Weight W2 | 64 × 10 |
+| Bias b2 | 10 elements |
+| Final output | 256 × 10 |
 
-powershell
+## 6. System Architecture
+
+### 6.1 Overall Architecture
+
+```text
+                Input Data (X)
+                       |
+                       v
+             Matrix Multiplication
+                       |
+                  Add Bias (b1)
+                       |
+                       v
+                 ReLU Activation
+                       |
+                       v
+             Matrix Multiplication
+                       |
+                  Add Bias (b2)
+                       |
+                       v
+               Sigmoid Activation
+                       |
+                       v
+                 Final Output
+                       |
+             +---------+---------+
+             |                   |
+             v                   v
+          CPU Output          GPU Output
+             |                   |
+             +---------+---------+
+                       |
+                       v
+               Result Comparison
+                       |
+                       v
+              Numerical Validation
+                       |
+                       v
+               Performance Analysis
+```
+
+### 6.2 CUDA Execution Model
+
+CUDA uses a hierarchy of grids, blocks, and threads.
+
+- **Thread:** Executes an individual computation.
+- **Block:** Contains a group of threads.
+- **Grid:** Contains multiple thread blocks.
+- **blockIdx:** Identifies the block.
+- **threadIdx:** Identifies the thread within a block.
+- **blockDim:** Specifies the dimensions of a block.
+
+For matrix multiplication, each CUDA thread calculates one output element.
+
+Boundary checks ensure that threads outside the matrix dimensions do not access invalid memory locations.
+
+## 7. Implementation Overview
+
+The program is developed in eight phases.
+
+| Phase | Implementation | Purpose |
+|---|---|---|
+| 1 | Includes, CUDA_CHECK and constants | Loads libraries, handles CUDA errors, defines network dimensions |
+| 2 | Three CUDA kernels | Implements matrix multiplication, ReLU and sigmoid |
+| 3 | CPU functions | Implements the reference forward pass |
+| 4 | GPU forward-pass function | Launches CUDA kernels in sequence |
+| 5 | Kernel testing functions | Validates individual CUDA kernels |
+| 6 | Start of main function | Detects GPU, runs tests, generates input data and measures CPU time |
+| 7 | GPU memory and timing | Allocates device memory, transfers data, warms up GPU and measures execution |
+| 8 | Comparison and output | Compares CPU and GPU results, prints performance and releases memory |
+
+### 7.1 CUDA Kernels
+
+The experiment implements three custom CUDA kernels:
+
+1. `matrixMulBiasKernel()` – Performs matrix multiplication with bias.
+2. `reluKernel()` – Applies ReLU activation.
+3. `sigmoidKernel()` – Applies sigmoid activation.
+
+### 7.2 CPU Functions
+
+The CPU implementation includes:
+
+- `cpuMatMulBias()`
+- `cpuReLU()`
+- `cpuSigmoid()`
+- `cpuForwardPass()`
+
+These functions perform the same operations as the GPU implementation.
+
+### 7.3 Kernel Testing
+
+Three individual kernel tests are performed using small input values with known expected outputs.
+
+| Kernel | Test Input | Expected Output |
+|---|---|---|
+| Matrix multiplication + bias | A = [[1,2,3],[4,5,6]], B = [[1,2],[3,4],[5,6]], bias = [1,-1] | [[23,27],[50,63]] |
+| ReLU | [-2, 0, 3, -4, 5] | [0, 0, 3, 0, 5] |
+| Sigmoid | [-2, 0, 2] | Approximately [0.119203, 0.5, 0.880797] |
+
+All three tests must pass before the complete forward pass continues.
+
+## 8. Compilation and Execution
+
+### 8.1 Environment Setup
+
+Open the **Developer Command Prompt for VS 2022**.
+
+Verify CUDA:
+
+```bash
 nvidia-smi
-
-
-This displays:
-
-GPU name.
-NVIDIA driver version.
-CUDA compatibility version.
-GPU memory usage.
-GPU utilization.
-
-The system must detect an NVIDIA CUDA-capable GPU.
-
-6.2 CUDA Toolkit
-
-Install the NVIDIA CUDA Toolkit.
-
-Verify the CUDA compiler:
-
-powershell
 nvcc --version
+```
 
+Verify the Microsoft C++ compiler:
 
-Find the CUDA compiler location:
-
-powershell
-where.exe nvcc
-
-
-The output should show a path similar to:
-
-text
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.0\bin\nvcc.exe
-
-6.3 Visual Studio Build Tools
-
-Install Visual Studio 2022 Build Tools.
-
-Select the following workload:
-
-Desktop development with C++
-
-Ensure the following components are installed:
-
-MSVC v143 x64/x86 build tools.
-Windows 10 SDK or Windows 11 SDK.
-
-CUDA requires the Microsoft C++ compiler to compile the host-side code.
-
-6.4 Developer Command Prompt
-
-Open:
-
-Developer Command Prompt for VS 2022
-
-Alternatively, open:
-
-x64 Native Tools Command Prompt for VS 2022.
-
-Verify the C++ compiler:
-
-cmd
+```bash
 where cl
-
-
-Execute:
-
-cmd
 cl
+```
 
+### 8.2 Create the Project Directory
 
-The compiler version and usage information should appear.
+```bash
+mkdir "%USERPROFILE%\Documents\Experiment5_CUDA"
+cd /d "%USERPROFILE%\Documents\Experiment5_CUDA"
+```
 
-Important: All compilation and execution commands should be performed using the Developer Command Prompt.
+### 8.3 Create the CUDA Source File
 
-6.5 System Verification
+```bash
+notepad neural_network.cu
+```
 
-Run the following commands:
+The CUDA program is saved as `neural_network.cu`.
 
-cmd
-nvidia-smi
-nvcc --version
-where.exe nvcc
-where cl
+### 8.4 Compile the Program
 
+Compile using NVCC:
 
-Verify that the GPU, CUDA compiler, and Microsoft C++ compiler are available before continuing.
-
-7. Part A - CUDA Kernel Implementation
-
-The first part implements three custom CUDA kernels.
-
-Source file:
-
-text
-neural_network.cu
-
-7.1 Matrix Multiplication with Bias
-
-The matrix multiplication kernel calculates one output element per CUDA thread.
-
-The thread calculates its row and column using:
-
-cpp
-int row = blockIdx.y * blockDim.y + threadIdx.y;
-int col = blockIdx.x * blockDim.x + threadIdx.x;
-
-
-The kernel performs multiplication and bias addition:
-
-cpp
-float sum = 0.0f;
-
-for (int k = 0; k < K; ++k) {
-    sum += A[row * K + k] * B[k * N + col];
-}
-
-C[row * N + col] = sum + bias[col];
-
-
-Boundary checking ensures that only valid output positions are processed.
-
-7.2 ReLU Kernel
-
-The ReLU kernel applies the activation function to every element.
-
-cpp
-values[idx] = fmaxf(0.0f, values[idx]);
-
-
-Each thread processes one element.
-
-7.3 Sigmoid Kernel
-
-The sigmoid kernel calculates:
-
-cpp
-values[idx] = 1.0f / (1.0f + expf(-values[idx]));
-
-
-Each CUDA thread processes one element independently.
-
-8. Part B - CPU Implementation
-
-The CPU implementation acts as the reference implementation.
-
-The following functions are used:
-
-Function	Purpose
-cpuMatMulBias()	Matrix multiplication with bias
-cpuReLU()	ReLU activation
-cpuSigmoid()	Sigmoid activation
-cpuForwardPass()	Complete neural-network forward pass
-
-The CPU performs the following operations:
-
-Multiply input X with W1.
-Add bias b1.
-Apply ReLU.
-Multiply hidden activation with W2.
-Add bias b2.
-Apply sigmoid.
-Store the final output.
-
-The CPU forward pass is executed 20 times, and the average execution time is calculated.
-
-9. Part C - GPU Forward Pass
-
-The GPU implementation executes the same neural-network operations using CUDA kernels.
-
-9.1 GPU Memory Allocation
-
-The program allocates memory using:
-
-cpp
-cudaMalloc()
-
-
-The following device arrays are allocated:
-
-dX
-dW1
-db1
-dZ1
-dW2
-db2
-dZ2
-9.2 Host-to-Device Data Transfer
-
-Input matrices, weight matrices, and bias vectors are transferred from CPU memory to GPU memory using:
-
-cpp
-cudaMemcpy()
-
-
-The transfer direction is:
-
-cpp
-cudaMemcpyHostToDevice
-
-9.3 Kernel Launch
-
-The GPU forward pass launches four kernels in sequence:
-
-Matrix multiplication with bias.
-ReLU activation.
-Matrix multiplication with bias.
-Sigmoid activation.
-
-The function used is:
-
-cpp
-launchGpuForwardPass()
-
-9.4 Device-to-Host Data Transfer
-
-After the GPU computation is completed, the final output is copied back to CPU memory.
-
-The transfer direction is:
-
-cpp
-cudaMemcpyDeviceToHost
-
-
-The CPU and GPU output arrays are then compared.
-
-10. Part D - Performance Evaluation
-
-The experiment measures three execution times.
-
-10.1 CPU Execution Time
-
-The CPU performs the complete forward pass 20 times.
-
-The average execution time is calculated using:
-
-cpp
-std::chrono::steady_clock
-
-10.2 GPU Kernel-Only Execution Time
-
-CUDA events are used to measure GPU kernel execution time.
-
-This measurement includes the repeated kernel launches and GPU computation.
-
-It excludes the initial host-to-device data transfers and final output transfer.
-
-10.3 GPU End-to-End Execution Time
-
-The end-to-end measurement includes:
-
-Input data transfer.
-Weight transfer.
-Bias transfer.
-GPU kernel execution.
-GPU synchronization.
-Output transfer back to CPU.
-
-Therefore, end-to-end execution time represents the complete GPU computation workflow.
-
-10.4 Speedup Calculation
-
-Kernel-only speedup:
-
-text
-CPU Time / GPU Kernel-Only Time
-
-
-End-to-end speedup:
-
-text
-CPU Time / GPU End-to-End Time
-
-
-A speedup greater than 1 indicates that the GPU execution is faster than the CPU execution for the corresponding measurement.
-
-11. Execution Steps
-
-The following commands summarize the complete experiment.
-
-Step	Command	Purpose
-1	nvidia-smi	Check NVIDIA GPU
-2	nvcc --version	Verify CUDA compiler
-3	where cl	Verify MSVC compiler
-4	mkdir "%USERPROFILE%\Documents\Experiment5_CUDA"	Create project directory
-5	cd /d "%USERPROFILE%\Documents\Experiment5_CUDA"	Navigate to directory
-6	notepad neural_network.cu	Create CUDA source file
-7	Paste all 8 code phases	Complete program implementation
-8	nvcc -c neural_network.cu	Check partial compilation after Phase 5
-9	nvcc -O2 neural_network.cu -o neural_network.exe	Compile complete CUDA program
-10	dir neural_network.exe	Verify executable
-11	neural_network.exe	Execute experiment
-12	nvidia-smi	Inspect GPU utilization
-Complete Execution Sequence
-
-After completing all eight code phases, execute:
-
-cmd
+```bash
 nvcc -O2 neural_network.cu -o neural_network.exe
+```
 
+### 8.5 Verify the Executable
 
-Run the program:
+```bash
+dir neural_network.exe
+```
 
-cmd
+### 8.6 Execute the Program
+
+```bash
 neural_network.exe
+```
 
+The program detects the NVIDIA GPU, executes the kernel tests, performs the CPU and GPU forward passes, compares the outputs, and displays performance measurements.
 
-The program performs individual kernel tests, CPU execution, GPU execution, numerical comparison, and speedup calculation.
+## 9. Kernel Testing and Validation
 
-12. Expected Output
+The program checks the correctness of all three CUDA kernels.
 
-The following is the reference output from the demonstrated NVIDIA RTX 4500 Ada Generation GPU.
+Expected validation output:
 
-text
-EXPERIMENT 5: NEURAL NETWORK LAYERS IN CUDA
-
-GPU detected: NVIDIA RTX 4500 Ada Generation
-
-Testing individual CUDA kernels...
-
+```text
 Matrix multiplication + bias: PASSED
 ReLU: PASSED
 Sigmoid: PASSED
+```
 
-Forward-pass dimensions:
-Input: 256 x 128
-Hidden layer: 256 x 64
-Output: 256 x 10
+The complete forward pass is then executed on both CPU and GPU.
 
-Average CPU compute time: 0.526860 ms
-Average GPU kernel-only time: 0.026517 ms
-Average GPU end-to-end time: 0.066010 ms
+The maximum absolute output difference is calculated using:
 
-Kernel-only speedup: 19.868913x
-End-to-end speedup: 7.981518x
+```text
+Maximum Difference = max |CPU_output[i] - GPU_output[i]|
+```
 
-Maximum absolute output difference: 0.000000
+The program declares the outputs as matching when:
 
+```text
+Maximum Difference < 1e-4
+```
+
+Expected validation:
+
+```text
 CPU and GPU outputs: MATCH (within tolerance)
+```
 
-First 10 output values (GPU):
-0.498196 0.503101 0.508006 0.512911 0.517814
-0.497729 0.502638 0.507548 0.512457 0.517364
+## 10. Performance Measurement
 
+The experiment measures three execution times.
 
-Note: Execution times depend on the GPU, CPU, driver, CUDA Toolkit, and system load. The values above are reference measurements and should not be reported as measurements from another computer.
+### 10.1 CPU Compute Time
 
-13. Experimental Results
-13.1 Individual CUDA Kernel Tests
-Kernel	Expected Result	Status
-Matrix Multiplication + Bias	[23, 27, 50, 63]	PASSED
-ReLU	[0, 0, 3, 0, 5]	PASSED
-Sigmoid	[0.119203, 0.5, 0.880797]	PASSED
-13.2 CPU and GPU Performance Comparison
-Measurement	Reference Result	Unit
-CPU Average Compute Time	0.526860	ms
-GPU Kernel-Only Time	0.026517	ms
-GPU End-to-End Time	0.066010	ms
-Kernel-Only Speedup	19.868913	×
-End-to-End Speedup	7.981518	×
-13.3 Numerical Correctness
-Parameter	Result
-Maximum Absolute Difference	0.000000
-Allowed Tolerance	0.0001
-CPU and GPU Outputs	MATCH
-Matrix Kernel Test	PASSED
-ReLU Kernel Test	PASSED
-Sigmoid Kernel Test	PASSED
-13.4 Speedup Comparison
+The CPU forward pass is executed 20 times, and the average execution time is calculated.
 
-The recorded experiment achieved:
+### 10.2 GPU Kernel-Only Time
 
-Approximately 19.87× kernel-only speedup.
-Approximately 7.98× end-to-end speedup.
+CUDA events are used to measure repeated GPU kernel execution.
 
-The kernel-only speedup is higher because it excludes data-transfer overhead.
+The inputs and weights are already stored in GPU memory. This measurement covers kernel execution only.
 
-14. Observation and Comparison
-Case	Correctness	Performance Observation
-Matrix Multiplication	Correct	Parallel output computation using CUDA threads
-ReLU Activation	Correct	Independent element-wise processing
-Sigmoid Activation	Correct	Parallel activation computation
-CPU Forward Pass	Correct	Sequential C++ implementation
-GPU Forward Pass	Correct	Parallel execution using CUDA kernels
-Kernel-Only Timing	Measured	Excludes data-transfer overhead
-End-to-End Timing	Measured	Includes memory transfers and kernel execution
-Numerical Validation	MATCH	GPU output agrees with CPU output within tolerance
-Important Observations
-CUDA kernels allow multiple matrix elements to be calculated in parallel.
-Each CUDA thread processes an individual output element or activation value.
-Matrix multiplication with bias forms the main computational part of the neural network.
-ReLU and sigmoid are element-wise activation functions.
-GPU execution produces results numerically equivalent to CPU execution within the specified tolerance.
-GPU kernel-only execution is faster than the CPU reference execution in the demonstrated run.
-End-to-end execution includes data-transfer overhead.
-End-to-end speedup is lower than kernel-only speedup.
-GPU warm-up reduces the influence of first-launch initialization overhead.
-Execution times can vary across different systems and repeated runs.
-15. Limitations
+### 10.3 GPU End-to-End Time
 
-The experiment has the following limitations:
+The end-to-end measurement includes:
 
-It requires an NVIDIA CUDA-capable GPU.
-The implementation uses custom CUDA kernels rather than optimized deep-learning libraries such as cuBLAS.
-The matrix multiplication kernel uses a simple direct computation approach.
-The experiment implements only a two-layer neural-network forward pass.
-Neural-network training and backpropagation are not implemented.
-GPU performance depends on the hardware configuration.
-Data-transfer overhead can reduce the overall GPU speedup.
-Floating-point calculations may produce small CPU/GPU numerical differences.
-Timing measurements can vary between executions.
-The experiment uses fixed network dimensions and deterministic input values.
-16. Troubleshooting
-Problem	Solution
-nvidia-smi is not recognized	Install or verify the NVIDIA GPU driver
-nvcc is not recognized	Install CUDA Toolkit and verify PATH
-Cannot find compiler cl.exe in PATH	Open Developer Command Prompt for VS 2022
-where cl returns no result	Install Visual Studio C++ build tools
-LNK1104 cannot open file	Move the project to Documents and close any running executable
-No CUDA device detected	Check GPU driver installation and CUDA compatibility
-CUDA kernel test fails	Verify indexing, memory allocation, and kernel launch dimensions
-CPU/GPU outputs do not match	Verify tensor dimensions, data transfers, and computation
-Executable not generated	Check NVCC compilation errors
-Execution times vary	Repeat the experiment and record the actual measurements
-17. Precautions
-Use an NVIDIA CUDA-capable GPU.
-Ensure the NVIDIA GPU driver and CUDA Toolkit are properly installed.
-Use Developer Command Prompt for VS 2022 for compilation.
-Verify that nvcc and cl.exe are available.
-Save the source file with the .cu extension.
-Store the project in a user-writable directory such as Documents.
-Do not paste any code phase more than once.
-Verify all three CUDA kernel tests before performance evaluation.
-Check CUDA errors during memory allocation and kernel execution.
-Record actual execution times from your own system.
-Run the experiment multiple times to observe timing variations.
-Ensure CPU and GPU output validation succeeds before drawing conclusions.
-18. Conclusion
+- Host-to-device data transfers.
+- CUDA kernel execution.
+- GPU synchronization.
+- Device-to-host output transfer.
 
-This experiment implemented and evaluated basic neural-network layers using custom CUDA kernels.
+### 10.4 Speedup Calculation
 
-Matrix multiplication with bias, ReLU activation, and sigmoid activation were implemented and tested independently.
+**Kernel-only speedup:**
 
-The three CUDA kernels were then combined to execute a two-layer neural-network forward pass on the GPU. The same computation was performed on the CPU to validate numerical correctness.
+```text
+CPU Average Compute Time / GPU Kernel-Only Time
+```
 
-The experiment measured CPU execution time, GPU kernel-only execution time, and GPU end-to-end execution time.
+**End-to-end speedup:**
 
-In the demonstrated run, all three CUDA kernel tests passed, and CPU and GPU outputs matched within the specified numerical tolerance.
+```text
+CPU Average Compute Time / GPU End-to-End Time
+```
 
-The GPU achieved approximately 19.87× kernel-only speedup and 7.98× end-to-end speedup compared with the CPU reference implementation.
+A speedup greater than 1 indicates that the measured GPU execution path is faster than the CPU computation for that measurement scope.
 
-Overall, the experiment provided practical understanding of CUDA programming, GPU memory management, parallel execution, neural-network computations, numerical validation, and GPU performance evaluation.
+The end-to-end speedup is usually lower because it includes data-transfer and kernel-launch overhead.
 
-19. Author
+## 11. Observation and Comparison
 
-Krupa1310
+The experiment validates the correctness and performance of the neural-network layers implemented using CUDA.
 
-CSE (Artificial Intelligence)
+| Component | Observation |
+|---|---|
+| Matrix multiplication + bias | Individual CUDA kernel is tested |
+| ReLU activation | Negative values become zero |
+| Sigmoid activation | Values are mapped between 0 and 1 |
+| CPU execution | Performs the forward pass using C++ functions |
+| GPU execution | Performs the forward pass using custom CUDA kernels |
+| Kernel validation | All three kernel tests should pass |
+| Numerical validation | CPU and GPU outputs should match within tolerance |
+| Performance | CPU and GPU execution times are measured |
+| Speedup | Kernel-only and end-to-end speedups are calculated |
 
+### 11.1 Observation Table
+
+Record the actual values from your execution screenshots. Timing values may vary between runs and systems.
+
+| Measurement | Observed Value |
+|---|---|
+| GPU Model | Refer to execution screenshot |
+| CPU Average Compute Time | Refer to execution screenshot |
+| GPU Kernel-Only Time | Refer to execution screenshot |
+| GPU End-to-End Time | Refer to execution screenshot |
+| Kernel-Only Speedup | Refer to execution screenshot |
+| End-to-End Speedup | Refer to execution screenshot |
+| Maximum Absolute Difference | Refer to execution screenshot |
+| Matrix Multiplication Test | PASSED |
+| ReLU Test | PASSED |
+| Sigmoid Test | PASSED |
+| CPU/GPU Output Validation | MATCH (within tolerance) |
+
+### 11.2 Important Observations
+
+- CUDA kernels perform computations in parallel using GPU threads.
+- Matrix multiplication with bias produces the weighted sum for each output element.
+- ReLU removes negative values from the activation output.
+- Sigmoid maps values into the range between 0 and 1.
+- CPU and GPU results are compared to validate numerical correctness.
+- GPU kernel-only timing excludes host-device data transfers.
+- End-to-end timing includes memory transfers and kernel execution.
+- GPU speedup depends on hardware, CUDA configuration, data-transfer overhead, and system load.
+- Execution times can vary slightly between repeated runs.
+
+## 12. Execution Screenshots
+
+The following screenshots document the CUDA environment, source code, compilation, and successful execution of Experiment 5.
+
+### 12.1 NVIDIA GPU Verification
+
+![NVIDIA GPU Verification](Screenshots/01_nvidia-smi.png)
+
+### 12.2 CUDA Toolkit Verification
+
+![CUDA Toolkit Version](Screenshots/02_nvcc%20--version.png)
+
+### 12.3 CUDA Source Code
+
+![Neural Network CUDA Source Code](Screenshots/03_neural_network.cu.png)
+
+### 12.4 Program Compilation
+
+![CUDA Compilation](Screenshots/04_compilation.png)
+
+### 12.5 First Execution
+
+![First Execution](Screenshots/05_execution.png)
+
+### 12.6 Second Execution
+
+![Second Execution](Screenshots/06_execution_second_run.png)
+
+## 13. Precautions
+
+1. Use an NVIDIA CUDA-capable GPU with a compatible driver and CUDA Toolkit.
+2. Open the Visual Studio x64 Developer Command Prompt so that `cl.exe` is available in PATH.
+3. Save the source file using the `.cu` extension.
+4. Use a writable project directory instead of `C:\Windows\System32`.
+5. Maintain consistent matrix dimensions and memory allocation sizes.
+6. Check CUDA errors and kernel test results before interpreting performance.
+7. Verify CPU and GPU outputs before calculating speedup.
+8. Execute the program multiple times to observe timing variations.
+
+## 14. Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| `nvidia-smi` is not recognized | Check NVIDIA driver installation |
+| `nvcc` is not recognized | Verify CUDA Toolkit installation and PATH |
+| `cl.exe` not found | Open Developer Command Prompt for VS 2022 |
+| `LNK1104` error | Use a writable directory and close any running executable |
+| No CUDA device detected | Check GPU driver and CUDA compatibility |
+| Kernel test fails | Verify kernel indexing, dimensions and memory transfers |
+| CPU/GPU output mismatch | Check calculations, data allocation and kernel execution |
+| Execution timings vary | Repeat the experiment and consider system load |
+
+## 15. Conclusion
+
+This experiment implemented basic neural-network layers using custom CUDA kernels, including matrix multiplication with bias, ReLU activation, and sigmoid activation.
+
+The three CUDA kernels were tested individually using known input and expected output values. The kernels were then combined to perform a two-layer neural-network forward pass on the GPU.
+
+The same forward pass was implemented on the CPU to validate numerical correctness. CPU and GPU outputs were compared using the maximum absolute difference, and execution times were measured to calculate kernel-only and end-to-end speedups.
+
+Overall, the experiment provided practical understanding of CUDA programming, GPU memory management, thread and block organization, parallel computation, numerical validation, and GPU performance evaluation.
+
+## 16. Author
+
+**Krupa Akki**
+
+CSE (Artificial Intelligence)  
 K.L.E. Technological University, Hubli
 
-Repository Structure
-text
-PGC-Experiment-5-Neural-Network-Layers-in-CUDA/
+GitHub: [Krupa1310](https://github.com/Krupa1310)
+
+---
+
+## Repository Structure
+
+```text
+PGC-Experiment-5-Neural Network Layers in CUDA/
 │
 ├── README.md
 │
-├── neural_network.cu
-│
-├── graphs/
-│   ├── 01_cpu_gpu_execution_comparison.png
-│   ├── 02_gpu_speedup_comparison.png
-│   └── 03_execution_time_comparison.png
-│
-├── results/
-│   ├── neural_network_output.txt
-│   ├── performance_results.txt
-│   └── validation_results.txt
-│
-└── screenshots/
-    ├── 01_gpu_detection.png
-    ├── 02_cuda_compilation.png
-    ├── 03_kernel_tests.png
-    ├── 04_cpu_gpu_execution.png
-    └── 05_performance_comparison.png
-
-
-Note: Graphs, result files, and screenshots should be added after generating and saving your actual experiment outputs.
+└── Screenshots/
+    ├── 01_nvidia-smi.png
+    ├── 02_nvcc --version.png
+    ├── 03_neural_network.cu.png
+    ├── 04_compilation.png
+    ├── 05_execution.png
+    └── 06_execution_second_run.png
+```
