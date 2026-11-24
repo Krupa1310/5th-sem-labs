@@ -6,28 +6,27 @@ This experiment implements matrix multiplication with bias, ReLU activation, and
 
 ## Table of Contents
 
-1. Aim
-2. Objectives
-3. Hardware and Software Requirements
-4. Theory
-   - 4.1 Neural Network Forward Pass
-   - 4.2 Matrix Multiplication with Bias
-   - 4.3 ReLU Activation
-   - 4.4 Sigmoid Activation
-   - 4.5 CPU and GPU Execution
-5. Network Configuration
-6. System Architecture
-7. Implementation Overview
-8. Compilation and Execution
-9. Kernel Testing and Validation
-10. Performance Measurement
-11. Observation and Comparison
-12. Execution Screenshots
-13. Precautions
-14. Troubleshooting
-15. Conclusion
-16. Author
-
+1. [Aim](#aim)
+2. [Objectives](#objectives)
+3. [Hardware and Software Requirements](#hardware-and-software-requirements)
+4. [Theory](#theory)
+   - [4.1 Neural Network Forward Pass](#41-neural-network-forward-pass)
+   - [4.2 Matrix Multiplication with Bias](#42-matrix-multiplication-with-bias)
+   - [4.3 ReLU Activation](#43-relu-activation)
+   - [4.4 Sigmoid Activation](#44-sigmoid-activation)
+   - [4.5 CPU and GPU Execution](#45-cpu-and-gpu-execution)
+5. [Network Configuration](#network-configuration)
+6. [System Architecture](#system-architecture)
+7. [Implementation Overview](#implementation-overview)
+8. [Compilation and Execution](#compilation-and-execution)
+9. [Kernel Testing and Validation](#kernel-testing-and-validation)
+10. [Performance Measurement](#performance-measurement)
+11. [Observation and Comparison](#observation-and-comparison)
+12. [Execution Screenshots](#execution-screenshots)
+13. [Precautions](#precautions)
+14. [Troubleshooting](#troubleshooting)
+15. [Conclusion](#conclusion)
+16. [Author](#author)
 ---
 
 ## 1. Aim
