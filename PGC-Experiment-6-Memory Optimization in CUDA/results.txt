@@ -1,0 +1,31 @@
+GPU: NVIDIA GeForce RTX 5060 Ti
+Compute Capability: 12.0
+CUDA Toolkit: 13.4
+
+RUN 1
+Uncoalesced: 0.794 ms | 169.1 GB/s
+Coalesced:   0.418 ms | 321.0 GB/s
+Speedup: 1.90x
+Naive MatMul: 1.403 ms | 1530.2 GFLOPS
+Result: PASS
+
+RUN 2
+Uncoalesced: 0.792 ms | 169.5 GB/s
+Coalesced:   0.415 ms | 323.0 GB/s
+Speedup: 1.91x
+Naive MatMul: 1.457 ms | 1473.6 GFLOPS
+Result: PASS
+
+RUN 3
+Uncoalesced: 0.793 ms | 169.2 GB/s
+Coalesced:   0.422 ms | 318.2 GB/s
+Speedup: 1.88x
+Naive MatMul: 1.457 ms | 1473.5 GFLOPS
+Result: PASS
+
+AVERAGES
+Uncoalesced: 0.793 ms | 169.3 GB/s
+Coalesced: 0.418 ms | 320.7 GB/s
+Naive MatMul: 1.439 ms | 1492.4 GFLOPS
+
+All kernels: PASS
