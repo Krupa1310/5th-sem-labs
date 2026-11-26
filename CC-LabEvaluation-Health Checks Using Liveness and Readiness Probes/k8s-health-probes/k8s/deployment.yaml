@@ -1,0 +1,77 @@
+# Student Management application (image health-demo:2.0): 3 replicas sharing one persistent volume,
+# each with a startup, a liveness and a readiness probe.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-demo
+  labels:
+    app: health-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: health-demo
+  # Rolling update settings used by the "Slow Startup" demo:
+  # all 3 new pods are created at once (maxSurge 100%) and the old pods are kept
+  # until the new ones are Ready (maxUnavailable 0). So you can watch new pods sit
+  # at 0/1 for ~30 s while the old pods keep serving traffic.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: health-demo
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: health-demo
+        image: health-demo:2.0              # built by scripts/deploy.ps1 (docker build -t health-demo:2.0 app)
+        imagePullPolicy: IfNotPresent      # use the locally built image
+        ports:
+        - containerPort: 5000
+        env:
+        - name: POD_NAME                    # lets the app report its own pod name
+          valueFrom:
+            fieldRef: {fieldPath: metadata.name}
+        - name: POD_IP
+          valueFrom:
+            fieldRef: {fieldPath: status.podIP}
+        - name: STARTUP_DELAY_SECONDS       # 0 = normal. The dashboard sets this to 30
+          value: "0"                        # to simulate a slow start-up.
+        - name: DB_PATH                     # SQLite file on the persistent volume (no credentials needed)
+          value: /data/students.db
+        volumeMounts:
+        - name: student-data
+          mountPath: /data
+        resources:
+          requests: {cpu: 20m, memory: 32Mi}
+          limits: {memory: 128Mi}
+        # STARTUP: "has the process finished booting (database initialised)?" Liveness and readiness
+        # only begin once this succeeds. Allows up to 30 x 2 s = 60 s of start-up before a restart.
+        startupProbe:
+          httpGet: {path: /startupz, port: 5000}
+          periodSeconds: 2
+          timeoutSeconds: 2
+          failureThreshold: 30
+        # LIVENESS: "is the process still working?" Cheap check, does NOT touch the database.
+        # Failing 3 times in a row (3 x 5 s = ~15 s) => container restarted.
+        livenessProbe:
+          httpGet: {path: /healthz, port: 5000}
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+        # READINESS: "can this pod serve students right now?" Also checks the database.
+        # Failing 3 times in a row (~15 s) => pod removed from Service endpoints (NO restart).
+        readinessProbe:
+          httpGet: {path: /ready, port: 5000}
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+          successThreshold: 1
+      volumes:
+      - name: student-data
+        persistentVolumeClaim:
+          claimName: student-data

@@ -1,0 +1,8 @@
+Concurrency,Average Response Time (ms),Throughput (requests/sec),Failed Requests,Order CPU,Order Memory,Product CPU,Product Memory,User CPU,User Memory
+1,31.78,31.32,0,0.26%,57.12MiB / 3.671GiB,0.25%,47.79MiB / 3.671GiB,0.22%,48.34MiB / 3.671GiB
+2,33.99,58.29,0,0.20%,56.96MiB / 3.671GiB,0.20%,47.86MiB / 3.671GiB,0.10%,48.93MiB / 3.671GiB
+4,33.05,118.92,0,0.42%,57.63MiB / 3.671GiB,0.16%,47.65MiB / 3.671GiB,0.15%,49.08MiB / 3.671GiB
+8,109.12,71.78,0,0.22%,58.31MiB / 3.671GiB,0.37%,47.56MiB / 3.671GiB,0.23%,48.88MiB / 3.671GiB
+16,164.93,90.18,0,0.17%,58MiB / 3.671GiB,0.24%,48.33MiB / 3.671GiB,0.13%,48.75MiB / 3.671GiB
+
+

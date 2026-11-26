@@ -1,0 +1,20 @@
+# Persistent storage for the Student Management database (SQLite file /data/students.db).
+# Records survive container restarts, pod restarts and rollouts because the file lives on this
+# volume, not inside the container. "kubectl delete -f k8s/pvc.yaml" would DELETE the data -
+# scripts/cleanup.* therefore leaves this claim alone unless you pass --purge / -Purge.
+#
+# ReadWriteOnce: the volume can be mounted by pods on ONE node. That is exactly what a single-node
+# Docker Desktop cluster has, so all 3 replicas can share it. (On a multi-node cluster you would use
+# a ReadWriteMany volume or a real database such as MySQL/PostgreSQL instead.)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: student-data
+  labels:
+    app: health-demo
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+  # storageClassName omitted -> the cluster's default class (Docker Desktop: "hostpath")

@@ -1,0 +1,17 @@
+CACHE FALSE SHARING COMPARISON
+---------------------------------------------
+adjacent   | threads=1 | total=100000000 | time=0.1840 s
+padded     | threads=1 | total=100000000 | time=0.1837 s
+
+adjacent   | threads=2 | total=100000000 | time=0.1716 s
+padded     | threads=2 | total=100000000 | time=0.0908 s
+
+adjacent   | threads=4 | total=100000000 | time=0.1853 s
+padded     | threads=4 | total=100000000 | time=0.0504 s
+
+
+NUMA MEMORY SWEEP COMPARISON
+---------------------------------------------
+Memory sweep | buffer=512 MB | threads=1 | sum=33554432 | time=0.1798 s
+Memory sweep | buffer=512 MB | threads=2 | sum=33554432 | time=0.1395 s
+Memory sweep | buffer=512 MB | threads=4 | sum=33554432 | time=0.1058 s

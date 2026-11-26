@@ -1,0 +1,41 @@
+State trace, first 2 iterations, adjacent layout
+Line A: Core 0 / Core 1
+
+MSI:
+Core 0 R line A -> C0=S, C1=I
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=S, C1=S
+Core 1 W line A -> C0=I, C1=M
+Core 0 R line A -> C0=S, C1=S
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=S, C1=S
+Core 1 W line A -> C0=I, C1=M
+
+MESI:
+Core 0 R line A -> C0=E, C1=I
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=S, C1=S
+Core 1 W line A -> C0=I, C1=M
+Core 0 R line A -> C0=S, C1=S
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=S, C1=S
+Core 1 W line A -> C0=I, C1=M
+
+MOESI:
+Core 0 R line A -> C0=E, C1=I
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=O, C1=S
+Core 1 W line A -> C0=I, C1=M
+Core 0 R line A -> C0=S, C1=O
+Core 0 W line A -> C0=M, C1=I
+Core 1 R line A -> C0=O, C1=S
+Core 1 W line A -> C0=I, C1=M
+
+Totals for 1000 iterations
+Layout     Protocol        bus    BusRd   BusRdX    BusUpgr  invalidations  writeback      c2c  silent E->M
+adjacent   MSI            4000     2000        0       2000           1999       1999        0            0
+adjacent   MESI           3999     2000        0       1999           1999       1999        0            1
+adjacent   MOESI          3999     2000        0       1999           1999          0     1999            1
+padded     MSI               4        2        0          2              0          0        0            0
+padded     MESI              2        2        0          0              0          0        0            2
+padded     MOESI             2        2        0          0              0          0        0            2

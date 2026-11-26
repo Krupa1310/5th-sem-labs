@@ -1,0 +1,1 @@
+padded | threads=2 | total=100000000 | time=0.0954 s

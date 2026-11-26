@@ -1,0 +1,10 @@
+environment,threads,execution_time,events_per_second
+VM,1,30.0013,307.10
+VM,2,30.0029,554.15
+VM,4,30.0035,772.48
+VM,8,30.0069,798.49
+
+Container,1,30.0019,294.10
+Container,2,30.0029,604.54
+Container,4,30.0040,824.50
+Container,8,30.0438,776.81

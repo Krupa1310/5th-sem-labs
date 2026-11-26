@@ -1,0 +1,1 @@
+buffer=512 MB | threads=2 | sum=33554432 | time=0.1493 s
