@@ -1,4 +1,4 @@
-# Experiment 7: Profiling and GPU Utilization
+# PGC-Experiment-7-Profiling-and-GPU-Utilization
 
 **Course:** Cloud Computing / GPU Programming Lab  
 **Experiment:** Profiling and GPU Utilization
