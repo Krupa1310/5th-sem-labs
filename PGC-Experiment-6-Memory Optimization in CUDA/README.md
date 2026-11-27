@@ -1,14 +1,28 @@
 # PGC-Experiment-6-Memory-Optimization-in-CUDA
 
-## Experiment 6: Memory Optimization in CUDA
+## Table of Contents
 
-**Course:** Parallel and GPU Computing (PGC)  
-**Experiment:** Memory Optimization in CUDA  
-**Topics:** Memory coalescing, uncoalesced and coalesced matrix transpose, naive matrix multiplication, CUDA event timing  
-**Language:** CUDA C/C++  
-**Platform:** NVIDIA GPU with CUDA Toolkit (`nvcc`) or Google Colab GPU runtime  
-**Duration:** 2 Hours
-
+1. [Aim](#1-aim)
+2. [Learning Outcomes](#2-learning-outcomes)
+3. [Theory](#3-theory)
+   - [3.1 Memory Coalescing](#31-memory-coalescing)
+   - [3.2 Matrix Transpose](#32-matrix-transpose)
+   - [3.3 Naive Matrix Multiplication](#33-naive-matrix-multiplication)
+   - [3.4 Performance Calculations](#34-performance-calculations)
+4. [Requirements](#4-requirements)
+5. [Program Structure](#5-program-structure)
+6. [CUDA Kernel Implementation](#6-cuda-kernel-implementation)
+   - [6.1 Constants](#61-constants)
+   - [6.2 Uncoalesced Transpose Kernel](#62-uncoalesced-transpose-kernel)
+   - [6.3 Coalesced Transpose Kernel](#63-coalesced-transpose-kernel)
+   - [6.4 Naive Matrix Multiplication Kernel](#64-naive-matrix-multiplication-kernel)
+   - [6.5 Timing and Verification](#65-timing-and-verification)
+7. [Compilation and Execution](#7-compilation-and-execution)
+8. [Expected Output](#8-expected-output)
+9. [Observation Table](#9-observation-table)
+10. [Analysis and Discussion](#10-analysis-and-discussion)
+11. [Troubleshooting](#11-troubleshooting)
+12. [Conclusion](#12-conclusion)
 ---
 
 ## 1. Aim
@@ -361,20 +375,8 @@ CUDA kernel launches are asynchronous with respect to the CPU. CUDA events measu
 | Very small speedup | The matrix may be too small. Try a larger transpose size such as `4096`. |
 | Out of memory | Reduce matrix sizes, for example `./exp6 2048 512`. |
 
-## 12. Viva Questions
 
-1. What is a warp in CUDA?
-2. What is memory coalescing?
-3. Why does uncoalesced memory access reduce performance?
-4. Which operation is strided in the uncoalesced transpose?
-5. Why is `__syncthreads()` required in the coalesced transpose?
-6. What is a shared-memory bank conflict?
-7. Why is the shared-memory tile declared as `[32][33]`?
-8. Why are CUDA events used instead of only a CPU timer?
-9. What does one thread calculate in the naive matrix multiplication kernel?
-10. How can shared-memory tiling improve matrix multiplication?
-
-## 13. Conclusion
+## 12. Conclusion
 
 This experiment demonstrates that global-memory access patterns have a significant effect on CUDA kernel performance. The uncoalesced transpose performs strided writes, while the coalesced transpose uses shared memory to achieve more efficient global-memory access. The experiment also demonstrates naive matrix multiplication, CUDA event-based timing and result verification. Overall, coalesced memory access improves memory efficiency, and shared-memory data reuse is an important direction for further CUDA optimization.
 
