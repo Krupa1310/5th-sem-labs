@@ -40,9 +40,8 @@ The workload uses PyTorch with CUDA and `torch.profiler` to generate Chrome trac
   - [11.3 Bottlenecks and Fixes](#113-bottlenecks-and-fixes)
 - [12. Timeline Visualization](#12-timeline-visualization)
 - [13. Troubleshooting](#13-troubleshooting)
-- [14. Viva Questions](#14-viva-questions)
-- [15. Conclusion](#15-conclusion)
-- [16. Author](#16-author)
+- [14. Conclusion](#14-conclusion)
+- [15. Author](#15-author)
 
 ---
 
@@ -541,19 +540,7 @@ These are schematic timelines. Use actual Perfetto or Nsight Systems screenshots
 | Checksums differ significantly | Recheck the stream and event synchronization in `run_optimized()`. |
 
 ---
-
-# 14. Viva Questions
-
-1. Define GPU utilization. Why can `nvidia-smi` show 100% even when the GPU is not fully efficient?
-2. Why is pinned memory faster than pageable memory for host-to-device transfers?
-3. Why does overlapping copy and compute need two streams, and why are two device buffers needed?
-4. Define arithmetic intensity and ridge point. Is GEMM always compute-bound? What happens if the matrix is tiny?
-5. After optimization, why can speedup be less than the theoretical limit? Give two reasons.
-6. Why must the checksum of the baseline and optimized versions match?
-
----
-
-# 15. Conclusion
+# 14. Conclusion
 
 This experiment profiled a GPU workload to identify idle time, host-to-device transfers, and kernel execution behavior.
 
@@ -567,7 +554,7 @@ The experiment demonstrates how profiling helps identify performance bottlenecks
 
 ---
 
-# 16. Author
+# 15. Author
 
 **Krupa**  
 CSE (Artificial Intelligence)  
